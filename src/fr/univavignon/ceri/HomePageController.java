@@ -109,14 +109,15 @@ public class HomePageController {
     void drawANode() {
         Circle c = new Circle(10, Color.BEIGE);
         visualisationWindow.getChildren().add(c);
+        // 355
+        // 544
 
-
-        for (int i = 0; i < n.nodesList.size(); i++) {
-            Circle d = new Circle(10, Color.GREEN);
+        for (int i = 1; i < n.nodesList.size(); i++) {
+            Circle d = new Circle(5, Color.GREEN);
             visualisationWindow.getChildren().add(d);
 
-            d.setCenterX(i*10);
-            d.setCenterY(i*10+3);
+            d.setCenterX(i*7+250);
+            d.setCenterY(i*7+150);
 
             System.out.println("cercle crée!");
         }
