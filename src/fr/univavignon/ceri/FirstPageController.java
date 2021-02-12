@@ -10,7 +10,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 
@@ -20,7 +22,7 @@ public class FirstPageController {
     public Button visualisation_btn;
 
     @FXML
-    public void sceneChange(ActionEvent actionEvent) throws IOException {
+    public void sceneChange(ActionEvent actionEvent) throws IOException, ParserConfigurationException, SAXException {
         System.out.println("You clicked on 'Visualisation' button!");
         FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLHomePage.fxml"));
         Parent home_page_parent = loader.load();
