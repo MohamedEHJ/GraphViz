@@ -24,6 +24,13 @@ public class FirstPageController {
     @FXML
     public void sceneChange(ActionEvent actionEvent) throws IOException, ParserConfigurationException, SAXException {
         System.out.println("You clicked on 'Visualisation' button!");
+
+
+        // A ENLEVER A ENLEVER A ENLEVER A ENLEVER A ENLEVER A ENLEVER A ENLEVER
+        fileChoosen = new File("\"C:\\Users\\AZ\\Documents\\mongraph.graphml\"");
+        // A ENLEVER A ENLEVER A ENLEVER A ENLEVER A ENLEVER A ENLEVER A ENLEVER A ENLEVER
+
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLHomePage.fxml"));
         Parent home_page_parent = loader.load();
         Scene home_page_scene = new Scene(home_page_parent);

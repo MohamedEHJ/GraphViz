@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
@@ -22,6 +23,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class HomePageController {
 
@@ -103,11 +106,23 @@ public class HomePageController {
         }
     }
 
-    void drawANode(){
-        Circle c = new Circle(10, Color.GREEN);
+    void drawANode() {
+        Circle c = new Circle(10, Color.BEIGE);
         visualisationWindow.getChildren().add(c);
 
-        c.setCenterX(100);
+
+        for (int i = 0; i < n.nodesList.size(); i++) {
+            Circle d = new Circle(10, Color.GREEN);
+            visualisationWindow.getChildren().add(d);
+
+            d.setCenterX(i*10);
+            d.setCenterY(i*10+3);
+
+            System.out.println("cercle crée!");
+        }
+
+
+        c.setCenterX(2);
         c.setCenterY(100);
     }
 }

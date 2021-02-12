@@ -6,7 +6,9 @@
 <AnchorPane fx:id="anchorPane" prefHeight="400.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.univavignon.ceri.HomePageController">
    <children>
       <Button fx:id="btn_back" layoutX="244.0" layoutY="360.0" mnemonicParsing="false" onAction="#retour" text="Retour" />
-      <Pane fx:id="visualisationWindow" layoutX="-3.0" prefHeight="350.0" prefWidth="544.0" style="-fx-background-color: #969da8;" />
+      <Pane fx:id="visualisationWindow" layoutX="-3.0" prefHeight="350.0" prefWidth="544.0" style="-fx-background-color: #969da8;">
+         <children>
+         </children></Pane>
       <Label fx:id="fileName" layoutX="110.0" layoutY="363.0" prefHeight="18.0" prefWidth="121.0" style="-fx-border-color: #969da8;" text="Label" />
    </children>
 </AnchorPane>
