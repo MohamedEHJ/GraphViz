@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.univavignon.ceri.FirstPageController">
+    <children>
+        <Button fx:id="visualisation_btn" layoutX="259.0" layoutY="323.0" mnemonicParsing="false" onAction="#sceneChange" text="Visualisation" />
+      <Button fx:id="fileChooser" layoutX="136.0" layoutY="323.0" mnemonicParsing="false" onAction="#FileChooser" text="Fichier" />
+    </children>
+</AnchorPane>
