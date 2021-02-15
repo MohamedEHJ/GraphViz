@@ -12,7 +12,7 @@ public class Nodes {
     private int id;
     private String url;
 
-    static List<Nodes> nodesList = new ArrayList<>();
+    public static List<Nodes> nodesList = new ArrayList<>();
 
     public int getId() {
         return id;
@@ -42,7 +42,7 @@ public class Nodes {
     }
 
     /**
-     * Function to get all the node in a graphML file in an array edgeList.
+     * Function to get all the node from a graphML file in an array edgeList.
      *
      * @param nList Node from DOM
      */

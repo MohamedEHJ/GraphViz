@@ -10,6 +10,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -21,12 +24,15 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
+import java.util.Collection;
+import java.util.Collections;
 
 public class SecondPage {
 
 
     public Button btn_back;
     public Label fileName;
+    public Pane visualisationWindow;
 
 
     File fileChoosen;
@@ -60,7 +66,7 @@ public class SecondPage {
      */
     public void receiveFile(File graphML) throws IOException, SAXException, ParserConfigurationException {
         fileChoosen = graphML;
-        System.out.println("file choosen: "+fileChoosen.getName());
+        System.out.println("file choosen: " + fileChoosen.getName());
         fileName.setText(fileChoosen.getName());
         xmlInit();
     }
@@ -92,11 +98,40 @@ public class SecondPage {
         n.nodeScrap(nList);
         e.edgeScrap(eList);
 
-        n.displayList();
-        e.displayList();
+//        n.displayList();
+//        e.displayList();
 
-//        drawANode();
+        drawANode();
     }
 
+
+    /**
+     * Draw node in a pane.
+     */
+    void drawANode() {
+        Circle c = new Circle(10, Color.BEIGE);
+        visualisationWindow.getChildren().add(c);
+
+        int x = 300;
+        int y = 100;
+        c.setCenterX(100);
+
+        System.out.println(n.nodesList.size());
+
+        for (int i = 0; i < n.nodesList.size(); i++) {
+            Circle d = new Circle(10, Color.GREEN);
+            visualisationWindow.getChildren().add(d);
+
+            d.setCenterX(i * 10);
+            d.setCenterY(i * 10 + 3);
+
+            System.out.println("cercle crée!");
+        }
+
+
+
+        c.setCenterX(2);
+        c.setCenterY(100);
+    }
 
 }

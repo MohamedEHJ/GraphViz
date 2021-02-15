@@ -7,12 +7,24 @@ import org.w3c.dom.NodeList;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Edge {
+public class Edge implements Comparable<Edge>  {
     private int source;
     private int target;
     private int poids;
 
-    static List<Edge> edgeList = new ArrayList<>();
+    public static List<Edge> edgeList = new ArrayList<>();
+
+    public int getSource() {
+        return source;
+    }
+
+    public int getTarget() {
+        return target;
+    }
+
+    public int getPoids() {
+        return poids;
+    }
 
     public void setSource(int source) {
         this.source = source;
@@ -38,7 +50,7 @@ public class Edge {
     }
 
     /**
-     * Function to get all the edge in a graphML file in an array edgeList.
+     * Function to get all the edge from a graphML file in an array edgeList.
      *
      * @param eList Node from DOM
      */
@@ -60,4 +72,15 @@ public class Edge {
             }
         }
     }
+
+    @Override
+    public int compareTo(Edge compareSource) {
+        int cs=((Edge)compareSource).getSource();
+        /* For Ascending order*/
+        return cs-this.source;
+
+        /* For Descending order do like this */
+        //return compareage-this.studentage;
+    }
+
 }
