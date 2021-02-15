@@ -58,8 +58,8 @@ public class Nodes {
                 Element eElement = (Element) node;
 
 
-                n.setId(Integer.parseInt(eElement.getElementsByTagName("data").item(2).getTextContent()));
-                n.setUrl(eElement.getElementsByTagName("data").item(1).getTextContent());
+//                n.setId(Integer.parseInt(eElement.getElementsByTagName("data").item(1).getTextContent().substring(1)));
+                n.setUrl(eElement.getElementsByTagName("data").item(0).getTextContent());
 
                 nodesList.add(n);
             }

@@ -27,7 +27,7 @@ public class FirstPageController {
 
 
         // A ENLEVER A ENLEVER A ENLEVER A ENLEVER A ENLEVER A ENLEVER A ENLEVER
-        fileChoosen = new File("C:\\Users\\AZ\\Documents\\mongraph.graphml");
+//        fileChoosen = new File("C:\\Users\\AZ\\Documents\\graphs\\crawl40.graphml");
         // A ENLEVER A ENLEVER A ENLEVER A ENLEVER A ENLEVER A ENLEVER A ENLEVER A ENLEVER
 
 

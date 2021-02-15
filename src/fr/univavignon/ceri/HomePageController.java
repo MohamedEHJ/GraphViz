@@ -9,9 +9,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -83,7 +84,7 @@ public class HomePageController {
 //        n.displayList();
 //        e.displayList();
 
-        drawANode();
+        drawNode();
     }
 
     /**
@@ -106,12 +107,23 @@ public class HomePageController {
         }
     }
 
-    void drawANode() {
+    List<Circle> circleList = new ArrayList<>();
+
+    void drawNode() {
         Circle c = new Circle(10, Color.BEIGE);
         visualisationWindow.getChildren().add(c);
+
         // 355
         // 544
 
+        int paneCenterX = 544/2;
+        int paneCenterY = 355/2;
+
+        Rectangle r = new Rectangle(5,5,Color.RED);
+
+        r.setX(paneCenterX);
+        r.setY(paneCenterY);
+        visualisationWindow.getChildren().add(r);
         for (int i = 1; i < n.nodesList.size(); i++) {
             Circle d = new Circle(5, Color.GREEN);
             visualisationWindow.getChildren().add(d);
@@ -119,11 +131,25 @@ public class HomePageController {
             d.setCenterX(i*7+250);
             d.setCenterY(i*7+150);
 
-            System.out.println("cercle crée!");
+//            System.out.println("cercle crée!");
+
+            circleList.add(d);
         }
 
 
         c.setCenterX(2);
         c.setCenterY(100);
+        System.out.println(circleList);
+
+        System.out.println(n.nodesList);
+        System.out.println(e.edgeList);
+
     }
+
+    void drawEdge(){
+        Line l = new Line();
+
+    }
+
+
 }
