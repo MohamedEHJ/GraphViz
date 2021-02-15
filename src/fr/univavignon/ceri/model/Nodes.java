@@ -41,24 +41,22 @@ public class Nodes {
         return ("<id = " + id + " url = " + url + ">\n");
     }
 
-
     /**
      * Function to get all the node in a graphML file in an array edgeList.
      *
      * @param nList Node from DOM
      */
-    static void nodeScrap(NodeList nList) {
+    public void nodeScrap(NodeList nList) {
         for (int temp = 0; temp < nList.getLength(); temp++) {
             Nodes n = new Nodes();
 
             Node node = nList.item(temp);
-            System.out.println("");    //Just a separator
             if (node.getNodeType() == Node.ELEMENT_NODE) {
-                //Print each employee's detail
+                //get all nodes info
                 Element eElement = (Element) node;
 
 
-//                n.setId(Integer.parseInt(eElement.getElementsByTagName("data").item(1).getTextContent().substring(1)));
+                n.setId(Integer.parseInt(eElement.getElementsByTagName("data").item(1).getTextContent()));
                 n.setUrl(eElement.getElementsByTagName("data").item(0).getTextContent());
 
                 nodesList.add(n);

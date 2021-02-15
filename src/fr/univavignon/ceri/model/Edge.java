@@ -42,7 +42,7 @@ public class Edge {
      *
      * @param eList Node from DOM
      */
-    static void edgeScrap(NodeList eList) {
+    public void edgeScrap(NodeList eList) {
         for (int temp = 0; temp < eList.getLength(); temp++) {
             Edge e = new Edge();
 

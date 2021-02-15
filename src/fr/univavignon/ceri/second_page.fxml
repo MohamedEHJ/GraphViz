@@ -5,7 +5,10 @@
 
 <AnchorPane prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.univavignon.ceri.SecondPage">
    <children>
-      <Button fx:id="btn_back" layoutX="1000.0" layoutY="735.0" mnemonicParsing="false" onAction="#retour" prefHeight="25.0" prefWidth="165.0" text="Retour" />
-      <Label fx:id="fileName" alignment="CENTER" layoutX="999.0" layoutY="695.0" prefHeight="25.0" prefWidth="165.0" style="-fx-border-color: #000000;" text="Label" />
+      <Button fx:id="btn_back" layoutX="1017.0" layoutY="735.0" mnemonicParsing="false" onAction="#retour" prefHeight="25.0" prefWidth="165.0" text="Retour" />
+      <Label fx:id="fileName" alignment="CENTER" layoutX="1017.0" layoutY="694.0" prefHeight="25.0" prefWidth="165.0" style="-fx-border-color: #000000;" text="Label" />
+      <Pane fx:id="visualisationWindow" prefHeight="662.0" prefWidth="996.0" style="-fx-border-color: #000000;" />
+      <AnchorPane layoutX="999.0" prefHeight="662.0" prefWidth="201.0" style="-fx-border-color: #000000;" />
+      <AnchorPane layoutX="-7.0" layoutY="666.0" prefHeight="135.0" prefWidth="1004.0" style="-fx-border-color: #000000;" />
    </children>
 </AnchorPane>
