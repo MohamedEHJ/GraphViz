@@ -51,7 +51,7 @@ public class SecondPage {
      */
     public void receiveFile(File graphML) {
         fileChoosen = graphML;
-        System.out.println(fileChoosen.getName());
+        System.out.println("file choosen: "+fileChoosen.getName());
         fileName.setText(fileChoosen.getName());
         //xmlInit();
     }
