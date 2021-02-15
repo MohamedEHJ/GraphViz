@@ -27,6 +27,7 @@ public class Main_page_Controller {
     /**
      * Manage the scene change when clicking on "visualisation" button.
      * Send the file in argument to the second scene too.
+     *
      * @param actionEvent
      * @throws IOException
      */
@@ -49,12 +50,15 @@ public class Main_page_Controller {
             /**
              * pass the information to the home page controller.
              */
-            SecondPage hpController = loader.getController();
-//            hpController.receiveFile(fileChoosen);
+            SecondPage secondPage = loader.getController();
+            secondPage.receiveFile(selectedFile);
 
             app_stage.setScene(home_page_scene);
             app_stage.show();
-        }    }
+        }
+    }
+
+    File selectedFile;
 
     /**
      * Manage the filechooser button.
@@ -68,7 +72,7 @@ public class Main_page_Controller {
                 new FileChooser.ExtensionFilter("Graphml Files", "*.graphml")
         );
 
-        File selectedFile = fc.showOpenDialog(null);
+        selectedFile = fc.showOpenDialog(null);
 
         if ((selectedFile != null)) {
             search_btn.setText(selectedFile.getName());
@@ -78,8 +82,6 @@ public class Main_page_Controller {
             System.out.println("file is not valid");
         }
     }
-
-
 
 
 }

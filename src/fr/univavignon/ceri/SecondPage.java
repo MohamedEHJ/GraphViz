@@ -7,14 +7,22 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.File;
 import java.io.IOException;
 
 public class SecondPage {
 
 
     public Button btn_back;
+    public Label fileName;
+
+
+    File fileChoosen;
 
     /**
      * Manage the button "retour" to get back to the first window.
@@ -34,6 +42,18 @@ public class SecondPage {
             app_stage.setScene(first_page_scene);
             app_stage.show();
         }
+    }
+
+    /**
+     * Receive the file choosen in the first window.
+     *
+     * @param graphML
+     */
+    public void receiveFile(File graphML) {
+        fileChoosen = graphML;
+        System.out.println(fileChoosen.getName());
+        fileName.setText(fileChoosen.getName());
+        //xmlInit();
     }
 
 
