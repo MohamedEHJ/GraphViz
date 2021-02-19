@@ -13,6 +13,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -101,6 +103,7 @@ public class SecondPage {
 //        n.displayList();
 //        e.displayList();
 
+        drawEdge();
         drawANode();
     }
 
@@ -109,29 +112,107 @@ public class SecondPage {
      * Draw node in a pane.
      */
     void drawANode() {
-        Circle c = new Circle(10, Color.BEIGE);
+//        Circle c = new Circle(10, Color.BEIGE);
+//        visualisationWindow.getChildren().add(c);
+//
+//        int x = 300;
+//        int y = 100;
+//        c.setCenterX(100);
+//
+//        System.out.println(n.nodesList.size());
+//
+//        for (int i = 0; i < n.nodesList.size(); i++) {
+//            Circle d = new Circle(10, Color.GREEN);
+//            visualisationWindow.getChildren().add(d);
+//
+//            d.setCenterX(i * 10);
+//            d.setCenterY(i + 3*2);
+//
+//            System.out.println("cercle crée!");
+//        }
+//
+//
+//        c.setCenterX(2);
+//        c.setCenterY(100);
+
+        Circle a = new Circle(15, Color.RED);
+        visualisationWindow.getChildren().add(a);
+
+        a.setCenterX(420);
+        a.setCenterY(280);
+
+        Circle b = new Circle(15, Color.BLACK);
+        visualisationWindow.getChildren().add(b);
+
+        b.setCenterX(420);
+        b.setCenterY(380);
+
+        Circle c = new Circle(15, Color.BLUE);
         visualisationWindow.getChildren().add(c);
 
-        int x = 300;
-        int y = 100;
-        c.setCenterX(100);
+        c.setCenterX(520);
+        c.setCenterY(280);
 
-        System.out.println(n.nodesList.size());
+        Circle d = new Circle(15, Color.GREEN);
+        visualisationWindow.getChildren().add(d);
 
-        for (int i = 0; i < n.nodesList.size(); i++) {
-            Circle d = new Circle(10, Color.GREEN);
-            visualisationWindow.getChildren().add(d);
+        d.setCenterX(520);
+        d.setCenterY(380);
 
-            d.setCenterX(i * 10);
-            d.setCenterY(i * 10 + 3);
+        Circle e = new Circle(10, Color.ORANGE);
+        visualisationWindow.getChildren().add(e);
 
-            System.out.println("cercle crée!");
-        }
-
+        e.setCenterX(620);
+        e.setCenterY(330);
 
 
-        c.setCenterX(2);
-        c.setCenterY(100);
+    }
+
+    void drawEdge() {
+        System.out.println("creation edge");
+        Line redBlack = new Line();
+        redBlack.setStartX(420);
+        redBlack.setStartY(280);
+        redBlack.setEndX(420);
+        redBlack.setEndY(380);
+        redBlack.setStrokeWidth(3);
+        visualisationWindow.getChildren().add(redBlack);
+
+        Line redBlue = new Line();
+        redBlue.setStartX(420);
+        redBlue.setStartY(280);
+        redBlue.setEndX(520);
+        redBlue.setEndY(280);
+        redBlue.setStrokeWidth(3);
+        visualisationWindow.getChildren().add(redBlue);
+
+        Line blueGreen = new Line();
+        blueGreen.setStartX(520);
+        blueGreen.setStartY(280);
+        blueGreen.setEndX(520);
+        blueGreen.setEndY(380);
+        visualisationWindow.getChildren().add(blueGreen);
+
+        Line blackGreen = new Line();
+        blackGreen.setStartX(420);
+        blackGreen.setStartY(380);
+        blackGreen.setEndX(520);
+        blackGreen.setEndY(380);
+        visualisationWindow.getChildren().add(blackGreen);
+
+        Line blueYellow = new Line();
+        blueYellow.setStartX(520);
+        blueYellow.setStartY(280);
+        blueYellow.setEndX(620);
+        blueYellow.setEndY(330);
+        visualisationWindow.getChildren().add(blueYellow);
+
+        Line greenYellow = new Line();
+        greenYellow.setStartX(520);
+        greenYellow.setStartY(380);
+        greenYellow.setEndX(620);
+        greenYellow.setEndY(330);
+        visualisationWindow.getChildren().add(greenYellow);
     }
 
 }
