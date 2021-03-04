@@ -10,8 +10,8 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-        primaryStage.setTitle("webCrawl graph visualisation");
+        Parent root = FXMLLoader.load(getClass().getResource("main_page.fxml"));
+        primaryStage.setTitle("WebCrawl graph visualisation");
         primaryStage.setScene(new Scene(root, 1200, 800));
         primaryStage.setResizable(false);
         primaryStage.show();
