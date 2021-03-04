@@ -41,7 +41,7 @@
                   <Font name="System Bold" size="16.0" />
                </font>
             </Text>
-            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Algorithme de graphe" textAlignment="CENTER" wrappingWidth="252.341796875" GridPane.columnIndex="3">
+            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Description du graphe" textAlignment="CENTER" wrappingWidth="252.341796875" GridPane.columnIndex="3">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
