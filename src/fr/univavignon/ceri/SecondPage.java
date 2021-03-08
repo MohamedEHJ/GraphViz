@@ -75,8 +75,11 @@ public class SecondPage {
 
     /**
      * read and init the graphML file by creating a list of edge and a list of node.
+     *
      */
     private void xmlInit() throws ParserConfigurationException, IOException, SAXException {
+        System.out.println("PARSING THE GRAPHML FILE");
+
         //Get Document Builder
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
