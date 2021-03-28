@@ -58,7 +58,7 @@ public class Edge implements Comparable<Edge>  {
      * @param eList Node from DOM
      * @return
      */
-    public List<Edge> edgeScrap(NodeList eList) {
+    public static List<Edge> edgeScrap(NodeList eList) {
         for (int temp = 0; temp < eList.getLength(); temp++) {
             Edge e = new Edge();
 

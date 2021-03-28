@@ -1,6 +1,7 @@
 package fr.univavignon.ceri;
 
 import fr.univavignon.ceri.model.Edge;
+import fr.univavignon.ceri.model.Graph;
 import fr.univavignon.ceri.model.Nodes;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -77,32 +78,10 @@ public class SecondPage {
      * read and init the graphML file by creating a list of edge and a list of node.
      */
     private void xmlInit() throws ParserConfigurationException, IOException, SAXException {
-        //Get Document Builder
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        //Build Document
-        Document document = builder.parse(fileChoosen);
+        Graph G = new Graph(fileChoosen);
 
-        //Normalize the XML Structure; It's just too important !!
-        document.getDocumentElement().normalize();
-
-        //Here comes the root node
-        Element root = document.getDocumentElement();
-        System.out.println(root.getNodeName());
-
-        //Get all node and edge
-        NodeList nList = document.getElementsByTagName("node");
-        NodeList eList = document.getElementsByTagName("edge");
-
-        // ===================================
-        /**
-         * Here i put this 2 function in comment to allow the execution
-         */
-//        n.nodeScrap(nList);
-//        e.edgeScrap(eList);
-
-//        n.displayList();
-//        e.displayList();
+        System.out.println(G.getNodes());
+        System.out.println(G.getEdges());
 
         drawEdge();
         drawANode();

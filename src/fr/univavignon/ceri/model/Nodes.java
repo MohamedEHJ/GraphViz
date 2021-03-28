@@ -9,16 +9,18 @@ import java.util.List;
 
 public class Nodes {
 
-    private int id;
+    private String id;
     private String url;
+    private int posX;
+    private int posY;
 
     public static List<Nodes> nodesList = new ArrayList<>();
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -30,18 +32,10 @@ public class Nodes {
         return url;
     }
 
-    /**
-     * display list of Nodes
-     */
-    public void displayList() {
-        for (int i = 0; i < nodesList.size(); i++) {
-            System.out.print(nodesList.get(i));
-        }
-    }
 
     @Override
     public String toString() {
-        return ("<id = " + id + " url = " + url + ">\n");
+        return "<id = " + id + ", url = " + url + ", posX = " + posX + ", posY = " + posY + ">\n";
     }
 
     /**
@@ -50,7 +44,7 @@ public class Nodes {
      * @param nList Node from DOM
      * @return
      */
-    public List<Nodes> nodeScrap(NodeList nList) {
+    public static List<Nodes> nodeScrap(NodeList nList) {
         for (int temp = 0; temp < nList.getLength(); temp++) {
             Nodes n = new Nodes();
 
@@ -60,7 +54,7 @@ public class Nodes {
                 Element eElement = (Element) node;
 
 
-                n.setId(Integer.parseInt(eElement.getElementsByTagName("data").item(1).getTextContent()));
+                n.setId((eElement.getElementsByTagName("data").item(1).getTextContent()));
                 n.setUrl(eElement.getElementsByTagName("data").item(0).getTextContent());
 
                 nodesList.add(n);
