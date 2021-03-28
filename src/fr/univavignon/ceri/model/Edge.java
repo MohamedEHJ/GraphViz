@@ -53,8 +53,9 @@ public class Edge implements Comparable<Edge>  {
      * Function to get all the edge from a graphML file in an array edgeList.
      *
      * @param eList Node from DOM
+     * @return
      */
-    public void edgeScrap(NodeList eList) {
+    public List<Edge> edgeScrap(NodeList eList) {
         for (int temp = 0; temp < eList.getLength(); temp++) {
             Edge e = new Edge();
 
@@ -71,6 +72,7 @@ public class Edge implements Comparable<Edge>  {
                 edgeList.add(e);
             }
         }
+        return edgeList;
     }
 
     @Override

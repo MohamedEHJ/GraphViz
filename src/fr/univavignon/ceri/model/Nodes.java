@@ -45,8 +45,9 @@ public class Nodes {
      * Function to get all the node from a graphML file in an array edgeList.
      *
      * @param nList Node from DOM
+     * @return
      */
-    public void nodeScrap(NodeList nList) {
+    public List<Nodes> nodeScrap(NodeList nList) {
         for (int temp = 0; temp < nList.getLength(); temp++) {
             Nodes n = new Nodes();
 
@@ -62,6 +63,7 @@ public class Nodes {
                 nodesList.add(n);
             }
         }
+        return nodesList;
     }
 
 }

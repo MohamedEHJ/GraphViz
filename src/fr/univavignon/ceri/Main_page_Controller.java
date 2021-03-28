@@ -69,7 +69,7 @@ public class Main_page_Controller {
      */
     public void fileChooser(ActionEvent actionEvent) {
         FileChooser fc = new FileChooser();
-        fc.setInitialDirectory(new File("C:\\Users\\mohamed\\Desktop\\s6\\projet prog\\graphs(1)")); // to comment before commit
+//        fc.setInitialDirectory(new File("C:\\Users\\mohamed\\Desktop\\s6\\projet prog\\graphs(1)")); // to comment before commit
         fc.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("Graphml Files", "*.graphml")
         );
