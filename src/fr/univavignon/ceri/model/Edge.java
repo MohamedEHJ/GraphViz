@@ -38,6 +38,9 @@ public class Edge implements Comparable<Edge>  {
         this.poids = poids;
     }
 
+    /**
+     * display list of edge
+     */
     public void displayList() {
         for (int i = 0; i < edgeList.size(); i++) {
             System.out.print(edgeList.get(i));

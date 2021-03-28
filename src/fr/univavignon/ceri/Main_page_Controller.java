@@ -1,6 +1,5 @@
 package fr.univavignon.ceri;
 
-import com.sun.glass.ui.CommonDialogs;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

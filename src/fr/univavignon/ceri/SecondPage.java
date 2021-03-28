@@ -80,7 +80,6 @@ public class SecondPage {
         //Get Document Builder
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
-        System.out.println(fileChoosen);
         //Build Document
         Document document = builder.parse(fileChoosen);
 
@@ -96,9 +95,11 @@ public class SecondPage {
         NodeList eList = document.getElementsByTagName("edge");
 
         // ===================================
-
-        n.nodeScrap(nList);
-        e.edgeScrap(eList);
+        /**
+         * Here i put this 2 function in comment to allow the execution
+         */
+//        n.nodeScrap(nList);
+//        e.edgeScrap(eList);
 
 //        n.displayList();
 //        e.displayList();
@@ -109,7 +110,7 @@ public class SecondPage {
 
 
     /**
-     * Draw node in a pane.
+     * Draw a random graph in the frame visualisationWindow
      */
     void drawANode() {
 //        Circle c = new Circle(10, Color.BEIGE);
@@ -168,6 +169,9 @@ public class SecondPage {
 
     }
 
+    /**
+     * Draw a small graph "by hand"
+     */
     void drawEdge() {
         System.out.println("creation edge");
         Line redBlack = new Line();

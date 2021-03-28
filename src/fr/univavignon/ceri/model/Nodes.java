@@ -30,6 +30,9 @@ public class Nodes {
         return url;
     }
 
+    /**
+     * display list of Nodes
+     */
     public void displayList() {
         for (int i = 0; i < nodesList.size(); i++) {
             System.out.print(nodesList.get(i));
