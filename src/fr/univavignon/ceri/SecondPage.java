@@ -3,6 +3,7 @@ package fr.univavignon.ceri;
 import fr.univavignon.ceri.model.Edge;
 import fr.univavignon.ceri.model.Graph;
 import fr.univavignon.ceri.model.Nodes;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,20 +16,12 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Collections;
 
 public class SecondPage {
 
@@ -37,6 +30,8 @@ public class SecondPage {
     public Label fileName;
     public Pane visualisationWindow;
 
+    int frameLength = 978;
+    int frameWidth = 638;
 
     File fileChoosen;
     Nodes n = new Nodes();
@@ -67,141 +62,75 @@ public class SecondPage {
      *
      * @param graphML
      */
+    Task task;
+
     public void receiveFile(File graphML) throws IOException, SAXException, ParserConfigurationException {
         fileChoosen = graphML;
         System.out.println("file choosen: " + fileChoosen.getName());
         fileName.setText(fileChoosen.getName());
+
         xmlInit();
+
+        fruchtermanReingold();
+
     }
+
 
     /**
      * read and init the graphML file by creating a list of edge and a list of node.
      */
     Graph G;
+
     private void xmlInit() throws ParserConfigurationException, IOException, SAXException {
         G = new Graph(fileChoosen);
-
-        System.out.println(G.getNodes());
-        System.out.println(G.getEdges());
-
-        drawEdge();
-        drawANode();
+//        G.randomizeNodes();
+//
+//        drawEdge();
+//        drawANode();
     }
 
 
     /**
-     * Draw a random graph in the frame visualisationWindow
+     * Draw nodes from graph G using node list.
      */
     void drawANode() {
         // width = 1003
         // height = 668
 
-        G.randomizeEdge();
 
-//        Circle c = new Circle(10, Color.BEIGE);
-//        visualisationWindow.getChildren().add(c);
-//
-//        int x = 300;
-//        int y = 100;
-//        c.setCenterX(100);
-//
-//        System.out.println(n.nodesList.size());
-//
-//        for (int i = 0; i < n.nodesList.size(); i++) {
-//            Circle d = new Circle(10, Color.GREEN);
-//            visualisationWindow.getChildren().add(d);
-//
-//            d.setCenterX(i * 10);
-//            d.setCenterY(i + 3*2);
-//
-//            System.out.println("cercle crée!");
-//        }
-//
-//
-//        c.setCenterX(2);
-//        c.setCenterY(100);
+        for (Nodes node : G.getNodes()) {
+            Circle c = new Circle(10, Color.TURQUOISE);
+            c.setCenterX(node.getPosX());
+            c.setCenterY(node.getPosY());
+            visualisationWindow.getChildren().add(c);
+        }
 
-        Circle a = new Circle(15, Color.RED);
-        visualisationWindow.getChildren().add(a);
-
-        a.setCenterX(420);
-        a.setCenterY(280);
-
-        Circle b = new Circle(15, Color.BLACK);
-        visualisationWindow.getChildren().add(b);
-
-        b.setCenterX(420);
-        b.setCenterY(380);
-
-        Circle c = new Circle(15, Color.BLUE);
-        visualisationWindow.getChildren().add(c);
-
-        c.setCenterX(520);
-        c.setCenterY(280);
-
-        Circle d = new Circle(15, Color.GREEN);
-        visualisationWindow.getChildren().add(d);
-
-        d.setCenterX(520);
-        d.setCenterY(380);
-
-        Circle e = new Circle(10, Color.ORANGE);
-        visualisationWindow.getChildren().add(e);
-
-        e.setCenterX(620);
-        e.setCenterY(330);
 
 
     }
 
     /**
-     * Draw a small graph "by hand"
+     * Draw graph using edge list from the graph G.
      */
     void drawEdge() {
-        System.out.println("creation edge");
-        Line redBlack = new Line();
-        redBlack.setStartX(420);
-        redBlack.setStartY(280);
-        redBlack.setEndX(420);
-        redBlack.setEndY(380);
-        redBlack.setStrokeWidth(3);
-        visualisationWindow.getChildren().add(redBlack);
 
-        Line redBlue = new Line();
-        redBlue.setStartX(420);
-        redBlue.setStartY(280);
-        redBlue.setEndX(520);
-        redBlue.setEndY(280);
-        redBlue.setStrokeWidth(3);
-        visualisationWindow.getChildren().add(redBlue);
+        for (Edge edge : G.getEdges()) {
+            Line line = new Line();
+            line.setStartX(edge.getSrc().getPosX());
+            line.setStartY(edge.getSrc().getPosY());
 
-        Line blueGreen = new Line();
-        blueGreen.setStartX(520);
-        blueGreen.setStartY(280);
-        blueGreen.setEndX(520);
-        blueGreen.setEndY(380);
-        visualisationWindow.getChildren().add(blueGreen);
+            line.setEndX(edge.getTrg().getPosX());
+            line.setEndY(edge.getTrg().getPosY());
 
-        Line blackGreen = new Line();
-        blackGreen.setStartX(420);
-        blackGreen.setStartY(380);
-        blackGreen.setEndX(520);
-        blackGreen.setEndY(380);
-        visualisationWindow.getChildren().add(blackGreen);
+            line.setStrokeWidth(edge.getPoids());
 
-        Line blueYellow = new Line();
-        blueYellow.setStartX(520);
-        blueYellow.setStartY(280);
-        blueYellow.setEndX(620);
-        blueYellow.setEndY(330);
-        visualisationWindow.getChildren().add(blueYellow);
+            visualisationWindow.getChildren().add(line);
+        }
 
-        Line greenYellow = new Line();
-        greenYellow.setStartX(520);
-        greenYellow.setStartY(380);
-        greenYellow.setEndX(620);
-        greenYellow.setEndY(330);
-        visualisationWindow.getChildren().add(greenYellow);
     }
+
+
+
+
 
 }

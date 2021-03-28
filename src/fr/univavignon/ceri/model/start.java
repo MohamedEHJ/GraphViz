@@ -17,7 +17,7 @@ public class start  {
 
     public static void main(String args[]) throws ParserConfigurationException, IOException, SAXException {
         System.out.println("Fonction scrapping GRAPHML");
-        File fileChoosen = new File("C:\\Users\\AZ\\Documents\\graphs\\crawl40.graphml");
+        File fileChoosen = new File("C:\\Users\\AZ\\Documents\\graphs\\web532coupé.graphml");
 
         Graph G = new Graph(fileChoosen);
 

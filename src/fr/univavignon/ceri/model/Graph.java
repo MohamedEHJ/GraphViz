@@ -1,7 +1,6 @@
 package fr.univavignon.ceri.model;
 
 import org.w3c.dom.Document;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
@@ -67,6 +66,9 @@ public class Graph {
      * @param document creating from the graphml file, using to get nodes and edges
      */
     void graphCreator(Document document) {
+        System.out.println("Creating graph...");
+
+
         NodeList nList = document.getElementsByTagName("node");
         NodeList eList = document.getElementsByTagName("edge");
 
@@ -78,12 +80,10 @@ public class Graph {
 
         // Attribute for each edges a node for source and a node for target.
         for (Edge edge : edges) {
-            System.out.println(edge.getSource());
             int sourceInteger = edge.getSource();
             int targetInteger = edge.getTarget();
 
             for (Nodes node : nodes) {
-                System.out.println(node.getId() + " " + sourceInteger);
                 if (Integer.parseInt(node.getId()) == sourceInteger) {
 
                     edge.setSrc(node);
@@ -99,10 +99,24 @@ public class Graph {
 
     /**
      * Place node randomly by attributing random x and y position.
+     * Also set the good edge position.
      */
-    public void randomizeEdge() {
+    public void randomizeNodes() {
+        System.out.println("Randomly place nodes");
         for (Nodes node : nodes) {
 //            System.out.println("x = " + node.getPosX() + " y = " + node.getPosY());
+            // Place node randomly.
+            node.setPosX((int) (10 + Math.random() * (998 - 20)));
+            node.setPosY((int) (10 + Math.random() * (658 - 20)));
+
+            // Place edge to their source and target node.
+            for (Edge edge : edges) {
+                edge.setSourcePosX(edge.getSrc().getPosX());
+                edge.setSourcePosY(edge.getSrc().getPosY());
+
+                edge.setTargetPosX(edge.getTrg().getPosX());
+                edge.setTargetPosY(edge.getTrg().getPosY());
+            }
 
         }
     }

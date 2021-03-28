@@ -13,8 +13,10 @@ public class Edge implements Comparable<Edge> {
     private Nodes src;
     private Nodes trg;
     private int poids;
-    private int posX;
-    private int posY;
+    private int sourcePosX;
+    private int sourcePosY;
+    private int targetPosX;
+    private int targetPosY;
 
     public void setSrc(Nodes src) {
         this.src = src;
@@ -22,6 +24,47 @@ public class Edge implements Comparable<Edge> {
 
     public void setTrg(Nodes trg) {
         this.trg = trg;
+    }
+
+
+    public Nodes getSrc() {
+        return src;
+    }
+
+    public Nodes getTrg() {
+        return trg;
+    }
+
+    public int getSourcePosX() {
+        return sourcePosX;
+    }
+
+    public int getSourcePosY() {
+        return sourcePosY;
+    }
+
+    public int getTargetPosX() {
+        return targetPosX;
+    }
+
+    public int getTargetPosY() {
+        return targetPosY;
+    }
+
+    public void setSourcePosX(int sourcePosX) {
+        this.sourcePosX = sourcePosX;
+    }
+
+    public void setSourcePosY(int sourcePosY) {
+        this.sourcePosY = sourcePosY;
+    }
+
+    public void setTargetPosX(int targetPosX) {
+        this.targetPosX = targetPosX;
+    }
+
+    public void setTargetPosY(int targetPosY) {
+        this.targetPosY = targetPosY;
     }
 
     public int getSource() {

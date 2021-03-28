@@ -73,6 +73,9 @@ public class Nodes {
                 n.setId((eElement.getElementsByTagName("data").item(1).getTextContent()));
                 n.setUrl(eElement.getElementsByTagName("data").item(0).getTextContent());
 
+                // Check for any n in the id of node, to avoid error while Integer.parseInt()
+                n.setId(n.getId().replace("n",""));
+
                 nodesList.add(n);
             }
         }
