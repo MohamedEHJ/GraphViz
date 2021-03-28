@@ -14,7 +14,21 @@ public class Nodes {
     private int posX;
     private int posY;
 
-    public static List<Nodes> nodesList = new ArrayList<>();
+    public int getPosX() {
+        return posX;
+    }
+
+    public int getPosY() {
+        return posY;
+    }
+
+    public void setPosX(int posX) {
+        this.posX = posX;
+    }
+
+    public void setPosY(int posY) {
+        this.posY = posY;
+    }
 
     public String getId() {
         return id;
@@ -45,6 +59,8 @@ public class Nodes {
      * @return
      */
     public static List<Nodes> nodeScrap(NodeList nList) {
+        List<Nodes> nodesList = new ArrayList<>();
+
         for (int temp = 0; temp < nList.getLength(); temp++) {
             Nodes n = new Nodes();
 

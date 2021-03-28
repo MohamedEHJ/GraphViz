@@ -77,8 +77,9 @@ public class SecondPage {
     /**
      * read and init the graphML file by creating a list of edge and a list of node.
      */
+    Graph G;
     private void xmlInit() throws ParserConfigurationException, IOException, SAXException {
-        Graph G = new Graph(fileChoosen);
+        G = new Graph(fileChoosen);
 
         System.out.println(G.getNodes());
         System.out.println(G.getEdges());
@@ -92,6 +93,11 @@ public class SecondPage {
      * Draw a random graph in the frame visualisationWindow
      */
     void drawANode() {
+        // width = 1003
+        // height = 668
+
+        G.randomizeEdge();
+
 //        Circle c = new Circle(10, Color.BEIGE);
 //        visualisationWindow.getChildren().add(c);
 //

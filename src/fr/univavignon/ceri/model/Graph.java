@@ -1,6 +1,7 @@
 package fr.univavignon.ceri.model;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
@@ -25,6 +26,7 @@ public class Graph {
 
     /**
      * Create a graph.
+     *
      * @param fileChoosen GRAPHML file
      * @throws IOException
      * @throws SAXException
@@ -37,8 +39,9 @@ public class Graph {
 
     /**
      * Read a GRAPHML file and create the document of this file
-     * @param fileChosen    The graphml we are parsing.
-     * @return  document    Document of this file once normalize
+     *
+     * @param fileChosen The graphml we are parsing.
+     * @return document    Document of this file once normalize
      * @throws ParserConfigurationException
      * @throws IOException
      * @throws SAXException
@@ -60,9 +63,10 @@ public class Graph {
 
     /**
      * Initialise the graph by creating a list of nodes and a list of edges.
+     *
      * @param document creating from the graphml file, using to get nodes and edges
      */
-    void graphCreator(Document document){
+    void graphCreator(Document document) {
         NodeList nList = document.getElementsByTagName("node");
         NodeList eList = document.getElementsByTagName("edge");
 
@@ -72,5 +76,34 @@ public class Graph {
         // same as above for Edges
         this.edges = (ArrayList<Edge>) Edge.edgeScrap(eList);
 
+        // Attribute for each edges a node for source and a node for target.
+        for (Edge edge : edges) {
+            System.out.println(edge.getSource());
+            int sourceInteger = edge.getSource();
+            int targetInteger = edge.getTarget();
+
+            for (Nodes node : nodes) {
+                System.out.println(node.getId() + " " + sourceInteger);
+                if (Integer.parseInt(node.getId()) == sourceInteger) {
+
+                    edge.setSrc(node);
+                }
+                if (Integer.parseInt(node.getId()) == targetInteger) {
+                    edge.setTrg(node);
+                }
+            }
+
+        }
+
+    }
+
+    /**
+     * Place node randomly by attributing random x and y position.
+     */
+    public void randomizeEdge() {
+        for (Nodes node : nodes) {
+//            System.out.println("x = " + node.getPosX() + " y = " + node.getPosY());
+
+        }
     }
 }

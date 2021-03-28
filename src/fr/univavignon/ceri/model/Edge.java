@@ -7,12 +7,22 @@ import org.w3c.dom.NodeList;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Edge implements Comparable<Edge>  {
+public class Edge implements Comparable<Edge> {
     private int source;
     private int target;
+    private Nodes src;
+    private Nodes trg;
     private int poids;
+    private int posX;
+    private int posY;
 
-    public static List<Edge> edgeList = new ArrayList<>();
+    public void setSrc(Nodes src) {
+        this.src = src;
+    }
+
+    public void setTrg(Nodes trg) {
+        this.trg = trg;
+    }
 
     public int getSource() {
         return source;
@@ -38,18 +48,9 @@ public class Edge implements Comparable<Edge>  {
         this.poids = poids;
     }
 
-    /**
-     * display list of edge
-     */
-    public void displayList() {
-        for (int i = 0; i < edgeList.size(); i++) {
-            System.out.print(edgeList.get(i));
-        }
-    }
-
     @Override
     public String toString() {
-        return "<source:" + source + " destination:" + target + " poids: " + poids + ">\n";
+        return "<source: " + src.getUrl() + " destination: " + trg.getUrl() + " poids: " + poids + ">\n";
     }
 
     /**
@@ -59,6 +60,8 @@ public class Edge implements Comparable<Edge>  {
      * @return
      */
     public static List<Edge> edgeScrap(NodeList eList) {
+        List<Edge> edgeList = new ArrayList<>();
+
         for (int temp = 0; temp < eList.getLength(); temp++) {
             Edge e = new Edge();
 
@@ -80,9 +83,9 @@ public class Edge implements Comparable<Edge>  {
 
     @Override
     public int compareTo(Edge compareSource) {
-        int cs=((Edge)compareSource).getSource();
+        int cs = ((Edge) compareSource).getSource();
         /* For Ascending order*/
-        return cs-this.source;
+        return cs - this.source;
 
         /* For Descending order do like this */
         //return compareage-this.studentage;
