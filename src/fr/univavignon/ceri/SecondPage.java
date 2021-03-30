@@ -29,6 +29,7 @@ public class SecondPage {
     public Button btn_back;
     public Label fileName;
     public Pane visualisationWindow;
+    public Button fruchterman_reingold;
 
     int frameLength = 978;
     int frameWidth = 638;
@@ -71,7 +72,7 @@ public class SecondPage {
 
         xmlInit();
 
-        fruchtermanReingold();
+//        fruchtermanReingold();
 
     }
 
@@ -83,10 +84,10 @@ public class SecondPage {
 
     private void xmlInit() throws ParserConfigurationException, IOException, SAXException {
         G = new Graph(fileChoosen);
-//        G.randomizeNodes();
-//
-//        drawEdge();
-//        drawANode();
+        G.randomizeNodes();
+
+        drawEdge();
+        drawANode();
     }
 
 
@@ -104,7 +105,6 @@ public class SecondPage {
             c.setCenterY(node.getPosY());
             visualisationWindow.getChildren().add(c);
         }
-
 
 
     }
@@ -130,7 +130,48 @@ public class SecondPage {
     }
 
 
+    void fruchtermanReingold() {
+        // Parameter : Graph(node list, edge list), Frame Width, Frame Length, temperature, iteration
+        int iteration = 100;
+        int temperature = 40;
 
 
+        // Initialisation
+        G.randomizeNodes();  // Randomly place Node in the frame.
 
+        // Optimal distance between node
+        double optimalDistance = Math.sqrt((frameLength * frameWidth) / G.getNodes().size());
+
+        System.out.println("Distance optimal = " + optimalDistance);
+
+        // Great loop
+        for (int i = 0; i < iteration; i++) {
+            // Repulsive forces
+            for (Nodes node :
+                    G.getNodes()) {
+                for (Nodes node2 :
+                        G.getNodes()) {
+                    if (node != node2) {
+
+                        // distance between node
+                        double distance = Math.sqrt(Math.pow(node2.getPosX() - node.getPosX(), 2) - Math.pow(node2.getPosY() - node.getPosY(), 2));
+
+                        double repulsion = optimalDistance * optimalDistance / distance;    // Repulsion
+
+                        
+
+
+                    }
+                }
+            }
+        }
+
+        drawEdge();
+        drawANode();
+    }
+
+
+    public void fruchtermanReingoldButton(ActionEvent actionEvent) {
+        fruchtermanReingold();
+    }
 }
