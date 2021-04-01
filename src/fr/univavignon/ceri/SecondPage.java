@@ -3,6 +3,7 @@ package fr.univavignon.ceri;
 import fr.univavignon.ceri.model.Edge;
 import fr.univavignon.ceri.model.Graph;
 import fr.univavignon.ceri.model.Nodes;
+import javafx.animation.PauseTransition;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,12 +18,15 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class SecondPage {
 
@@ -32,8 +36,8 @@ public class SecondPage {
     public Pane visualisationWindow;
     public Button fruchterman_reingold;
 
-    int frameLength = 978;
-    int frameWidth = 638;
+    int frameWidth = 978; // Y
+    int frameLength = 638; // X
 
     File fileChoosen;
 
@@ -104,15 +108,40 @@ public class SecondPage {
 //        visualisationWindow.getChildren().clear();
         Circle d = new Circle(10, Color.RED);
         d.setCenterX(1000);
-        d.setCenterY(660);
+        d.setCenterY(0);
         visualisationWindow.getChildren().add(d);
+        ArrayList<Color> color = new ArrayList<>();
 
+        color.add(Color.RED);
+        color.add(Color.GREEN);
+        color.add(Color.BLUE);
+        color.add(Color.ORANGE);
+        color.add(Color.YELLOW);
+
+        Map<Color, String> colors = new LinkedHashMap<>();
+        colors.put(Color.RED, "RED");
+        colors.put(Color.GREEN, "GREEN");
+        colors.put(Color.BLUE, "BLUE");
+        colors.put(Color.YELLOW, "YELLOW");
+        colors.put(Color.ORANGE, "ORANGE");
+
+        int i = 0;
         for (Nodes node : G.getNodes()) {
-            Circle c = new Circle(10, Color.TURQUOISE);
+            Color clr;
+            if (node.getId().equals("6") || node.getId().equals("0")) {
+                clr = Color.RED;
+            } else {
+                clr = Color.ORANGE;
+            }
+
+            Circle c = new Circle(5, clr);
             nodes.add(c);
             c.setCenterX(node.getPosX());
             c.setCenterY(node.getPosY());
+
             visualisationWindow.getChildren().add(c);
+            System.out.println();
+            i++;
         }
 
 
@@ -134,7 +163,11 @@ public class SecondPage {
             line.setEndX(edge.getTrg().getPosX());
             line.setEndY(edge.getTrg().getPosY());
 
-            line.setStrokeWidth(edge.getPoids());
+            if (edge.getPoids() != 1) {
+                line.setStrokeWidth(edge.getPoids());
+            } else {
+                line.setStrokeWidth(edge.getPoids());
+            }
 
             visualisationWindow.getChildren().add(line);
         }
@@ -154,29 +187,17 @@ public class SecondPage {
         ArrayList<Nodes> toDisplay = G.getNodes();
         System.out.println("*********" + G.getNodes());
         // Parameter : Graph(node list, edge list), Frame Width, Frame Length, temperature, iteration
-        int iteration = 10;
-        int temperature = frameWidth / 10;
+        int iteration = 20;
+        int temperature = 5;
         int dt = temperature / iteration + 1;
 
         // Initialisation
         G.randomizeNodes();  // Randomly place Node in the frame.
 
         // Optimal distance between node
-        float optimalDistance = (float) Math.sqrt((frameLength * frameWidth) / G.getNodes().size());
+        float optimalDistance = (float) Math.sqrt(((frameLength - 20) * (frameWidth - 20)) / G.getNodes().size());
 
         System.out.println("Distance optimal = " + optimalDistance);
-
-        float deplacementX = 0;
-        float deplacementY = 0;
-
-        float sourceDeplacementX = 0;
-        float sourceDeplacementY = 0;
-
-        float targetDeplacementX = 0;
-        float targetDeplacementY = 0;
-
-        float max = (float) Math.sqrt((frameWidth * frameLength) / 10f);
-
 
         // Great loop
         for (int i = 0; i < iteration; i++) {
@@ -202,8 +223,8 @@ public class SecondPage {
                         float repulsion = (optimalDistance * optimalDistance / (distance));    // Repulsion
 
                         if (distance > 0) {
-                            node1.setDisplacementX(node2.getDisplacementX() + (distanceX / Math.abs(distance)) * repulsion);
-                            node1.setDisplacementY(node2.getDisplacementY() + (distanceY / Math.abs(distance)) * repulsion);
+                            node1.setDisplacementX(node2.getDisplacementX() + (distanceX / (distance)) * repulsion);
+                            node1.setDisplacementY(node2.getDisplacementY() + (distanceY / (distance)) * repulsion);
                         }
                     }
                 }
@@ -224,16 +245,13 @@ public class SecondPage {
 
                 if (distance > 0) {
 
-                    sourceNode.setDisplacementX(sourceNode.getDisplacementX() - distanceX / Math.abs(distance) * attraction);
-                    sourceNode.setDisplacementY(sourceNode.getDisplacementY() - distanceY / Math.abs(distance) * attraction);
+                    sourceNode.setDisplacementX(sourceNode.getDisplacementX() - (distanceX / (distance)) * attraction);
+                    sourceNode.setDisplacementY(sourceNode.getDisplacementY() - (distanceY / (distance)) * attraction);
 
-                    targetNode.setDisplacementX(targetNode.getDisplacementX() - distanceX / Math.abs(distance) * attraction);
-                    targetNode.setDisplacementY(targetNode.getDisplacementY() - distanceY / Math.abs(distance) * attraction);
-
+                    targetNode.setDisplacementX(targetNode.getDisplacementX() - (distanceX / (distance)) * attraction);
+                    targetNode.setDisplacementY(targetNode.getDisplacementY() - (distanceY / (distance)) * attraction);
 
                 }
-
-
                 // We now apply the calculated displacements
             }
 
@@ -246,34 +264,27 @@ public class SecondPage {
                 if (disp > 0) {
 //                    System.out.println(node.toString());
 
-                    float posX = (node.getPosX() + dispX / disp * Math.min(dispX, temperature));
-                    float posY = (node.getPosY() + dispY / disp * Math.min(dispY, temperature));
+                    node.setPosX(node.getPosX() + (dispX / disp) * Math.min(disp, temperature));
+                    node.setPosY(node.getPosY() + (dispY / disp) * Math.min(disp, temperature));
 
-                    node.setPosX(Math.min(frameWidth / 2, Math.max((-frameWidth) / 2, posX)));
-                    node.setPosY(Math.min(frameLength / 2, Math.max((-frameLength) / 2, posY)));
+                    node.setPosX(Math.min(frameWidth - 20, Math.max(20, node.getPosX())));
+                    node.setPosY(Math.min(frameLength - 20, Math.max(20, node.getPosY())));
 
-//                    System.out.println("posX = " + posX);
-//                    System.out.println("posY = " + posY);
-//                    System.out.println("température = " + temperature);
-//                    System.out.println();
+                    if (node.getPosX() > frameWidth || node.getPosY() > frameLength) {
+                        System.out.println("ERROR");
+                    }
                 }
-                System.out.println(G.getNodes());
             }
 
-            temperature -= temperature / iteration;
+//            temperature -= temperature / iteration;
+//            temperature -= dt;
 
-//            System.out.println("température : " + temperature);
 
-//            try {
-//                Thread.sleep(3000);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
         }
-        System.out.println("end of loop");
-
         drawEdge();
         drawANode();
+        System.out.println("\n" + G.getNodes());
+
 
     }
 
