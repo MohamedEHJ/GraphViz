@@ -11,22 +11,41 @@ public class Nodes {
 
     private String id;
     private String url;
-    private int posX;
-    private int posY;
+    private float posX;
+    private float posY;
 
-    public int getPosX() {
+    private float displacementX;
+    private float displacementY;
+
+    public float getDisplacementX() {
+        return displacementX;
+    }
+
+    public void setDisplacementX(float displacementX) {
+        this.displacementX = displacementX;
+    }
+
+    public float getDisplacementY() {
+        return displacementY;
+    }
+
+    public void setDisplacementY(float displacementY) {
+        this.displacementY = displacementY;
+    }
+
+    public float getPosX() {
         return posX;
     }
 
-    public int getPosY() {
+    public float getPosY() {
         return posY;
     }
 
-    public void setPosX(int posX) {
+    public void setPosX(float posX) {
         this.posX = posX;
     }
 
-    public void setPosY(int posY) {
+    public void setPosY(float posY) {
         this.posY = posY;
     }
 
@@ -74,7 +93,7 @@ public class Nodes {
                 n.setUrl(eElement.getElementsByTagName("data").item(0).getTextContent());
 
                 // Check for any n in the id of node, to avoid error while Integer.parseInt()
-                n.setId(n.getId().replace("n",""));
+                n.setId(n.getId().replace("n", ""));
 
                 nodesList.add(n);
             }

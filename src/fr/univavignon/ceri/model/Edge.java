@@ -13,10 +13,10 @@ public class Edge implements Comparable<Edge> {
     private Nodes src;
     private Nodes trg;
     private int poids;
-    private int sourcePosX;
-    private int sourcePosY;
-    private int targetPosX;
-    private int targetPosY;
+    private float sourcePosX;
+    private float sourcePosY;
+    private float targetPosX;
+    private float targetPosY;
 
     public void setSrc(Nodes src) {
         this.src = src;
@@ -35,35 +35,35 @@ public class Edge implements Comparable<Edge> {
         return trg;
     }
 
-    public int getSourcePosX() {
+    public float getSourcePosX() {
         return sourcePosX;
     }
 
-    public int getSourcePosY() {
+    public float getSourcePosY() {
         return sourcePosY;
     }
 
-    public int getTargetPosX() {
+    public float getTargetPosX() {
         return targetPosX;
     }
 
-    public int getTargetPosY() {
+    public float getTargetPosY() {
         return targetPosY;
     }
 
-    public void setSourcePosX(int sourcePosX) {
+    public void setSourcePosX(float sourcePosX) {
         this.sourcePosX = sourcePosX;
     }
 
-    public void setSourcePosY(int sourcePosY) {
+    public void setSourcePosY(float sourcePosY) {
         this.sourcePosY = sourcePosY;
     }
 
-    public void setTargetPosX(int targetPosX) {
+    public void setTargetPosX(float targetPosX) {
         this.targetPosX = targetPosX;
     }
 
-    public void setTargetPosY(int targetPosY) {
+    public void setTargetPosY(float targetPosY) {
         this.targetPosY = targetPosY;
     }
 
