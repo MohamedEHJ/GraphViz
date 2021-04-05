@@ -19,8 +19,8 @@ public class start {
 
     public static void main(String args[]) throws ParserConfigurationException, IOException, SAXException {
         System.out.println("Fonction scrapping GRAPHML");
-        File fileChoosen = new File("C:\\Users\\AZ\\Documents\\graphs\\apetit graph.graphml");
-        File fileChoosen2 = new File("C:\\Users\\AZ\\Documents\\graphs\\crawl40.graphml");
+//        File fileChoosen = new File("C:\\Users\\AZ\\Documents\\graphs\\apetit graph.graphml");
+        File fileChoosen = new File("C:\\Users\\mohamed\\Desktop\\s6\\projet prog\\graphs(1)\\apetit_graph.graphml");
         G = new Graph(fileChoosen);
 
         if (G.getNodes().size() == 3) {
@@ -35,8 +35,19 @@ public class start {
 
         }
 
-        fruchtermanReingold();
+        test();
 
+//        fruchtermanReingold();
+
+    }
+
+    private static void test() {
+
+        G.getNodes().get(0).setDisplacementX(10);
+
+        G.getEdges().get(0).getSrc().setDisplacementX(20);
+
+        System.out.println(G.getNodes());
     }
 
 

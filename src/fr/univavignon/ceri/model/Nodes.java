@@ -14,8 +14,8 @@ public class Nodes {
     private float posX;
     private float posY;
 
-    private float displacementX;
-    private float displacementY;
+    public float displacementX;
+    public float displacementY;
 
     public float getDisplacementX() {
         return displacementX;
@@ -71,8 +71,8 @@ public class Nodes {
         return "Nodes{" +
                 "id='" + id + '\'' +
 //                ", url='" + url + '\'' +
-//                ", posX=" + posX +
-//                ", posY=" + posY +
+                ", posX=" + posX +
+                ", posY=" + posY +
                 ", displacementX=" + displacementX +
                 ", displacementY=" + displacementY +
                 '}';

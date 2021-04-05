@@ -28,8 +28,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 public class SecondPage {
 
@@ -105,42 +103,25 @@ public class SecondPage {
 
             G.getNodes().get(2).setPosX(15f);
             G.getNodes().get(2).setPosY(30f);
-
         }
-        drawEdge();
-        drawANode();
+
+        drawEdge(G);
+        drawANode(G);
     }
 
 
     /**
      * Draw nodes from graph G using node list.
+     *
+     * @param g
      */
-    void drawANode() {
+    void drawANode(Graph g) {
         // width = 1003
         // height = 668
 
 //        visualisationWindow.getChildren().clear();
-        Circle d = new Circle(10, Color.RED);
-        d.setCenterX(1000);
-        d.setCenterY(0);
-        visualisationWindow.getChildren().add(d);
-        ArrayList<Color> color = new ArrayList<>();
-
-        color.add(Color.RED);
-        color.add(Color.GREEN);
-        color.add(Color.BLUE);
-        color.add(Color.ORANGE);
-        color.add(Color.YELLOW);
-
-        Map<Color, String> colors = new LinkedHashMap<>();
-        colors.put(Color.RED, "RED");
-        colors.put(Color.GREEN, "GREEN");
-        colors.put(Color.BLUE, "BLUE");
-        colors.put(Color.YELLOW, "YELLOW");
-        colors.put(Color.ORANGE, "ORANGE");
-
         int i = 0;
-        for (Nodes node : G.getNodes()) {
+        for (Nodes node : g.getNodes()) {
             Color clr;
             if (node.getId().equals("6") || node.getId().equals("0")) {
                 clr = Color.RED;
@@ -162,14 +143,16 @@ public class SecondPage {
 
     /**
      * Draw graph using edge list from the graph G.
+     *
+     * @param g
      */
-    void drawEdge() {
+    void drawEdge(Graph g) {
         /**
          * Initalisation pour test.
          */
         visualisationWindow.getChildren().clear();
 
-        for (Edge edge : G.getEdges()) {
+        for (Edge edge : g.getEdges()) {
             Line line = new Line();
             edges.add(line);
             line.setStartX(edge.getSrc().getPosX());
@@ -198,17 +181,14 @@ public class SecondPage {
     }
 
 
-    void fruchtermanReingold() {
+    void fruchtermanReingold(Graph g) {
         // Parameter : Graph(node list, edge list), Frame Width, Frame Length, temperature, iteration
-        int iteration = 3;
-        int temperature = frameWidth / 10;
-        int dt = temperature / iteration;
+        int iteration = 100;
+        float temperature = frameWidth / 10;
+        float dt = temperature / iteration;
 
         // Initialisation
 //        G.randomizeNodes();  // Randomly place Node in the frame.
-
-        drawEdge();
-        drawANode();
 
         //TODO Remove the randomize with seed
 
@@ -217,26 +197,18 @@ public class SecondPage {
 
         System.out.println("Distance optimal = " + optimalDistance);
 
-        ArrayList<Nodes> tempNodes = null;
-        ArrayList<Edge> tempEdges = null;
 
         // Great loop
         for (int i = 0; i < iteration; i++) {
-            if (i == 0) {
-                tempNodes = G.getNodes();
-                tempEdges = G.getEdges();
-            }
-            System.out.println("état initial");
-            System.out.println(tempNodes);
-            System.out.println(tempEdges);
-            System.out.println();
+//            System.out.println(g.getEdges());
+            System.out.println(g.getNodes());
+
             // Repulsive forces
-            for (Nodes node1 : tempNodes) {
+            for (Nodes node1 : g.getNodes()) {
                 node1.setDisplacementX(0);
                 node1.setDisplacementY(0);
-                for (Nodes node2 : tempNodes) {
+                for (Nodes node2 : g.getNodes()) {
                     if (node1 != node2) {
-
                         // distance between node
                         float distanceX = (node1.getPosX() - node2.getPosX());
                         float distanceY = (node1.getPosY() - node2.getPosY());
@@ -250,24 +222,17 @@ public class SecondPage {
 
                         float repulsion = (optimalDistance * optimalDistance / (distance));    // Repulsion
 
-                        if (distance > 0) {
+                        if (distance != 0) {
                             node1.setDisplacementX(node1.getDisplacementX() + (distanceX / (distance)) * repulsion);
                             node1.setDisplacementY(node1.getDisplacementY() + (distanceY / (distance)) * repulsion);
 
                         }
                     }
                 }
-
             }
-//            tempNodes = G.nodes;
-//            tempEdges = G.edges;
-            System.out.println("état après paire de noeuds");
-            System.out.println(tempNodes);
-            System.out.println(tempEdges);
-            System.out.println();
 
             //Attractive forces with edges
-            for (Edge edge : tempEdges) {
+            for (Edge edge : g.getEdges()) {
                 // get the node associated to the edge.
                 Nodes sourceNode = edge.src;
                 Nodes targetNode = edge.trg;
@@ -278,65 +243,58 @@ public class SecondPage {
                 float distance = (float) Math.sqrt(distanceX * distanceX + distanceY * distanceY);
 
                 float attraction = (distance * distance) / optimalDistance;
+                System.out.println("attraction : " + attraction);
 
-                if (distance > 0) {
+                if (distance != 0) {
                     sourceNode.setDisplacementX(sourceNode.getDisplacementX() - (distanceX / (distance)) * attraction);
                     sourceNode.setDisplacementY(sourceNode.getDisplacementY() - (distanceY / (distance)) * attraction);
 
-                    targetNode.setDisplacementX(targetNode.getDisplacementX() - (distanceX / (distance)) * attraction);
-                    targetNode.setDisplacementY(targetNode.getDisplacementY() - (distanceY / (distance)) * attraction);
+                    targetNode.setDisplacementX(targetNode.getDisplacementX() + (distanceX / (distance)) * attraction);
+                    targetNode.setDisplacementY(targetNode.getDisplacementY() + (distanceY / (distance)) * attraction);
                 }
 
             }
-            // We now apply the calculated displacements
-            System.out.println("etat après chaque edge");
-            System.out.println(tempNodes);
-            System.out.println(tempEdges);
-            System.out.println("----- FIN ITERATION " + i + " -----");
-            System.out.println();
 
-//            for (Nodes node : G.getNodes()) {
-//                float dispX = node.getDisplacementX();
-//                float dispY = node.getDisplacementY();
-//
-//                float disp = (float) Math.sqrt(dispX * dispX + dispY * dispY);
-//
-//                if (disp > 0) {
-////                    System.out.println(node.toString());
-//
-//                    node.setPosX(node.getPosX() + (dispX / disp) * Math.min(disp, temperature));
-//                    node.setPosY(node.getPosY() + (dispY / disp) * Math.min(disp, temperature));
-//
-//                    node.setPosX(Math.min(frameWidth - 20, Math.max(20, node.getPosX())));
-//                    node.setPosY(Math.min(frameLength - 20, Math.max(20, node.getPosY())));
-//
-//                    if (node.getPosX() > frameWidth || node.getPosY() > frameLength) {
-//                        System.out.println("ERROR");
-//                    }
-//                }
-//            }
+            for (Nodes node : g.getNodes()) {
+                float dispX = node.getDisplacementX();
+                float dispY = node.getDisplacementY();
 
-            temperature -= temperature / iteration;
+                float disp = (float) Math.sqrt(dispX * dispX + dispY * dispY);
+
+                if (disp != 0) {
+//                    System.out.println(node.toString());
+
+                    node.setPosX(node.getPosX() + (dispX / disp) * Math.min(disp, temperature));
+                    node.setPosY(node.getPosY() + (dispY / disp) * Math.min(disp, temperature));
+
+                    node.setPosX(Math.min(frameWidth - 20, Math.max(20, node.getPosX())));
+                    node.setPosY(Math.min(frameLength - 20, Math.max(20, node.getPosY())));
+
+                    if (node.getPosX() > frameWidth || node.getPosY() > frameLength) {
+                        System.out.println("ERROR");
+                    }
+                }
+            }
+
+//            temperature -= temperature / iteration;
             temperature -= dt;
 
-
-            System.out.println("Itération = " + i);
-
-            tempNodes = G.nodes;
-            tempEdges = G.edges;
+            System.out.println(g.getNodes());
+            System.out.println("température : " + temperature);
+            System.out.println("------------------------------");
         }
 
 
         System.out.println("\n" + G.getNodes());
-        drawEdge();
-        drawANode();
+        drawEdge(g);
+        drawANode(g);
 
     }
 
 
     public void fruchtermanReingoldButton(ActionEvent actionEvent) {
-        fruchtermanReingold();
-//        animation();
+//        fruchtermanReingold(G);
+        animation();
 //        fruchtermanReingoldAnimation();
     }
 
@@ -348,7 +306,7 @@ public class SecondPage {
                         fruchtermanReingoldAnimation();
                     }
                 }),
-                new KeyFrame(Duration.millis(100))
+                new KeyFrame(Duration.millis(150))
         );
 
         timeline.setCycleCount(iteration);
@@ -357,8 +315,8 @@ public class SecondPage {
     }
 
     int i = 0;
-    float temperature = 10;
-    int iteration = 3;
+    float temperature = frameWidth/10;
+    int iteration = 100;
     float dt = temperature / iteration;
     int z = 0;
 
@@ -375,8 +333,8 @@ public class SecondPage {
         // Initialisation
 //        G.randomizeNodes();  // Randomly place Node in the frame.
 
-        drawEdge();
-        drawANode();
+        drawEdge(G);
+        drawANode(G);
 
         //TODO Remove the randomize with seed
 
@@ -392,7 +350,6 @@ public class SecondPage {
             node1.setDisplacementY(0);
             for (Nodes node2 : G.getNodes()) {
                 if (node1 != node2) {
-
                     // distance between node
                     float distanceX = (node1.getPosX() - node2.getPosX());
                     float distanceY = (node1.getPosY() - node2.getPosY());
@@ -409,78 +366,64 @@ public class SecondPage {
                     if (distance != 0) {
                         node1.setDisplacementX(node1.getDisplacementX() + (distanceX / (distance)) * repulsion);
                         node1.setDisplacementY(node1.getDisplacementY() + (distanceY / (distance)) * repulsion);
-//                            System.out.println("node 1 deplacementx "+node1.getDisplacementX());
-//                            System.out.println("node 1 deplacementy "+node1.getDisplacementY()+"\n");
+
                     }
                 }
             }
         }
+
 //        System.out.println("fin paire de noeud");
         //Attractive forces with edges
-        System.out.println("AVANT *******");
-        System.out.println(G.getEdges().get(0).getSrc().getDisplacementX());
-        System.out.println(G.getEdges().get(0).getSrc().getDisplacementY());
-        System.out.println(G.getEdges().get(0).getTrg().getDisplacementX());
-        System.out.println(G.getEdges().get(0).getTrg().getDisplacementY());
-        System.out.println("*******");
+        //Attractive forces with edges
         for (Edge edge : G.getEdges()) {
             // get the node associated to the edge.
-            Nodes sourceNode = edge.getSrc();
-            Nodes targetNode = edge.getTrg();
+            Nodes sourceNode = edge.src;
+            Nodes targetNode = edge.trg;
+
             float distanceX = (sourceNode.getPosX() - targetNode.getPosX());
             float distanceY = (sourceNode.getPosY() - targetNode.getPosY());
 
             float distance = (float) Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+
             float attraction = (distance * distance) / optimalDistance;
 
-
             if (distance != 0) {
-                sourceNode.setDisplacementX((edge.getSrc().getDisplacementX() - (distanceX / (distance)) * attraction));
-                sourceNode.setDisplacementY((edge.getSrc().getDisplacementY() - (distanceY / (distance)) * attraction));
+                sourceNode.setDisplacementX(sourceNode.getDisplacementX() - (distanceX / (distance)) * attraction);
+                sourceNode.setDisplacementY(sourceNode.getDisplacementY() - (distanceY / (distance)) * attraction);
 
-                targetNode.setDisplacementX(edge.getTrg().getDisplacementX() - (distanceX / (distance)) * attraction);
-                targetNode.setDisplacementY(edge.getTrg().getDisplacementY() - (distanceY / (distance)) * attraction);
-
+                targetNode.setDisplacementX(targetNode.getDisplacementX() + (distanceX / (distance)) * attraction);
+                targetNode.setDisplacementY(targetNode.getDisplacementY() + (distanceY / (distance)) * attraction);
             }
 
         }
-        System.out.println("APRES *******");
-        System.out.println(G.getEdges().get(0).getSrc().getDisplacementX());
-        System.out.println(G.getEdges().get(0).getSrc().getDisplacementY());
-        System.out.println(G.getEdges().get(0).getTrg().getDisplacementX());
-        System.out.println(G.getEdges().get(0).getTrg().getDisplacementY());
-        System.out.println("*******");
 
-        // We now apply the calculated displacements
-        System.out.println("fin itération");
-        System.out.println();
-/*
-            for (Nodes node : G.getNodes()) {
-                float dispX = node.getDisplacementX();
-                float dispY = node.getDisplacementY();
 
-                float disp = (float) Math.sqrt(dispX * dispX + dispY * dispY);
+        for (Nodes node : G.getNodes()) {
+            float dispX = node.getDisplacementX();
+            float dispY = node.getDisplacementY();
 
-                if (disp > 0) {
+            float disp = (float) Math.sqrt(dispX * dispX + dispY * dispY);
+
+            if (disp != 0) {
 //                    System.out.println(node.toString());
 
-                    node.setPosX(node.getPosX() + (dispX / disp) * Math.min(disp, temperature));
-                    node.setPosY(node.getPosY() + (dispY / disp) * Math.min(disp, temperature));
+                node.setPosX(node.getPosX() + (dispX / disp) * Math.min(disp, temperature));
+                node.setPosY(node.getPosY() + (dispY / disp) * Math.min(disp, temperature));
 
-                    node.setPosX(Math.min(frameWidth, Math.max(20, node.getPosX())));
-                    node.setPosY(Math.min(frameLength, Math.max(20, node.getPosY())));
+                node.setPosX(Math.min(frameWidth - 20, Math.max(20, node.getPosX())));
+                node.setPosY(Math.min(frameLength - 20, Math.max(20, node.getPosY())));
 
-                    if (node.getPosX() > frameWidth || node.getPosY() > frameLength) {
-                        System.out.println("ERROR");
-                    }
+                if (node.getPosX() > frameWidth || node.getPosY() > frameLength) {
+                    System.out.println("ERROR");
                 }
             }
-*/
+        }
 
 //            temperature -= temperature / iteration;
         temperature -= dt;
-        drawEdge();
-        drawANode();
+        System.out.println("température "+temperature);
+        drawEdge(G);
+        drawANode(G);
 //            System.out.println("Itération = " + i);
 //        }
         i++;
