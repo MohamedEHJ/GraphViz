@@ -10,10 +10,19 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Graph {
-    ArrayList<Nodes> nodes;
-    ArrayList<Edge> edges;
+    public ArrayList<Nodes> nodes;
+    public ArrayList<Edge> edges;
+
+    public void setNodes(ArrayList<Nodes> nodes) {
+        this.nodes = nodes;
+    }
+
+    public void setEdges(ArrayList<Edge> edges) {
+        this.edges = edges;
+    }
 
     public ArrayList<Nodes> getNodes() {
         return nodes;
@@ -21,6 +30,11 @@ public class Graph {
 
     public ArrayList<Edge> getEdges() {
         return edges;
+    }
+
+    public Graph(ArrayList<Nodes> nodes, ArrayList<Edge> edges) {
+        this.nodes = nodes;
+        this.edges = edges;
     }
 
     /**
@@ -121,5 +135,28 @@ public class Graph {
         }
     }
 
+    /**
+     * Place node randomly by attributing random x and y position.
+     * Also set the good edge position.
+     */
+    Random random = new Random(25);
+    public void randomizeNodesWithSeed() {
+        System.out.println("Randomly place nodes");
+        for (Nodes node : nodes) {
+//            System.out.println("x = " + node.getPosX() + " y = " + node.getPosY());
+            // Place node randomly.
+            node.setPosX((int) (10 + random.nextFloat() * (998 - 20)));
+            node.setPosY((int) (10 + random.nextFloat() * (658 - 20)));
 
+            // Place edge to their source and target node.
+            for (Edge edge : edges) {
+                edge.setSourcePosX(edge.getSrc().getPosX());
+                edge.setSourcePosY(edge.getSrc().getPosY());
+
+                edge.setTargetPosX(edge.getTrg().getPosX());
+                edge.setTargetPosY(edge.getTrg().getPosY());
+            }
+
+        }
+    }
 }

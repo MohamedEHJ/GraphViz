@@ -68,7 +68,14 @@ public class Nodes {
 
     @Override
     public String toString() {
-        return "<id = " + id + ", url = " + url + ", posX = " + posX + ", posY = " + posY + ">\n";
+        return "Nodes{" +
+                "id='" + id + '\'' +
+//                ", url='" + url + '\'' +
+//                ", posX=" + posX +
+//                ", posY=" + posY +
+                ", displacementX=" + displacementX +
+                ", displacementY=" + displacementY +
+                '}';
     }
 
     /**
