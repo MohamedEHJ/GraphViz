@@ -71,8 +71,6 @@ public class SecondPage {
      *
      * @param graphML
      */
-    Task task;
-
     public void receiveFile(File graphML) throws IOException, SAXException, ParserConfigurationException {
         fileChoosen = graphML;
         System.out.println("file choosen: " + fileChoosen.getName());
@@ -94,19 +92,8 @@ public class SecondPage {
         G = new Graph(fileChoosen);
         G.randomizeNodesWithSeed();
 
-        if (G.getNodes().size() == 3) {
-            G.getNodes().get(0).setPosX(10);
-            G.getNodes().get(0).setPosY(20);
-
-            G.getNodes().get(1).setPosX(10f);
-            G.getNodes().get(1).setPosY(30f);
-
-            G.getNodes().get(2).setPosX(15f);
-            G.getNodes().get(2).setPosY(30f);
-        }
-
-        drawEdge(G);
-        drawANode(G);
+        drawEdges(G);
+        drawNodes(G);
     }
 
 
@@ -115,7 +102,7 @@ public class SecondPage {
      *
      * @param g
      */
-    void drawANode(Graph g) {
+    void drawNodes(Graph g) {
         // width = 1003
         // height = 668
 
@@ -146,7 +133,7 @@ public class SecondPage {
      *
      * @param g
      */
-    void drawEdge(Graph g) {
+    void drawEdges(Graph g) {
         /**
          * Initalisation pour test.
          */
@@ -171,15 +158,6 @@ public class SecondPage {
         }
 
     }
-
-    float attraction(float d, float optimalDistance) {
-        return (d * d) / optimalDistance;
-    }
-
-    float repulsion(float d, float optimalDistance) {
-        return -(optimalDistance * optimalDistance) / d;
-    }
-
 
     void fruchtermanReingold(Graph g) {
         // Parameter : Graph(node list, edge list), Frame Width, Frame Length, temperature, iteration
@@ -267,8 +245,8 @@ public class SecondPage {
                     node.setPosX(node.getPosX() + (dispX / disp) * Math.min(disp, temperature));
                     node.setPosY(node.getPosY() + (dispY / disp) * Math.min(disp, temperature));
 
-                    node.setPosX(Math.min(frameWidth - 20, Math.max(20, node.getPosX())));
-                    node.setPosY(Math.min(frameLength - 20, Math.max(20, node.getPosY())));
+                    node.setPosX(Math.min(frameWidth, Math.max(20, node.getPosX())));
+                    node.setPosY(Math.min(frameLength, Math.max(20, node.getPosY())));
 
                     if (node.getPosX() > frameWidth || node.getPosY() > frameLength) {
                         System.out.println("ERROR");
@@ -286,18 +264,27 @@ public class SecondPage {
 
 
         System.out.println("\n" + G.getNodes());
-        drawEdge(g);
-        drawANode(g);
+        drawEdges(g);
+        drawNodes(g);
 
     }
 
 
+    /**
+     * Animation via Button.
+     *
+     * @param actionEvent
+     */
     public void fruchtermanReingoldButton(ActionEvent actionEvent) {
 //        fruchtermanReingold(G);
         animation();
 //        fruchtermanReingoldAnimation();
     }
 
+    /**
+     * Setup timeline for the animation.
+     * We can change the duration of a frame.
+     */
     private void animation() {
         final Timeline timeline = new Timeline(
                 new KeyFrame(Duration.ZERO, new EventHandler() {
@@ -314,35 +301,23 @@ public class SecondPage {
         timeline.play();
     }
 
-    int i = 0;
-    float temperature = frameWidth/10;
+    /**
+     * Variable initialisation
+     */
+    float temperature = frameWidth / 10;
     int iteration = 100;
     float dt = temperature / iteration;
-    int z = 0;
-
-    float temp1 = 0;
-    float temp2 = 0;
 
     private void fruchtermanReingoldAnimation() {
 
-        // Parameter : Graph(node list, edge list), Frame Width, Frame Length, temperature, iteration
-//        int iteration = 20;
-//        int temperature = 5;
-//        int dt = temperature / iteration + 1;
-
-        // Initialisation
-//        G.randomizeNodes();  // Randomly place Node in the frame.
-
-        drawEdge(G);
-        drawANode(G);
+        drawEdges(G);
+        drawNodes(G);
 
         //TODO Remove the randomize with seed
 
         // Optimal distance between node
         float optimalDistance = (float) Math.sqrt(((frameLength) * (frameWidth)) / G.getNodes().size());
 
-        // Great loop
-//        for (int i = 0; i < iteration; i++) {
 
         // Repulsive forces
         for (Nodes node1 : G.getNodes()) {
@@ -372,9 +347,7 @@ public class SecondPage {
             }
         }
 
-//        System.out.println("fin paire de noeud");
-        //Attractive forces with edges
-        //Attractive forces with edges
+        // Attractive forces with edges
         for (Edge edge : G.getEdges()) {
             // get the node associated to the edge.
             Nodes sourceNode = edge.src;
@@ -397,7 +370,7 @@ public class SecondPage {
 
         }
 
-
+        // Apply position
         for (Nodes node : G.getNodes()) {
             float dispX = node.getDisplacementX();
             float dispY = node.getDisplacementY();
@@ -421,13 +394,10 @@ public class SecondPage {
 
 //            temperature -= temperature / iteration;
         temperature -= dt;
-        System.out.println("température "+temperature);
-        drawEdge(G);
-        drawANode(G);
-//            System.out.println("Itération = " + i);
-//        }
-        i++;
-        z++;
+        System.out.println("température " + temperature);
+        drawEdges(G);
+        drawNodes(G);
+
 
     }
 
