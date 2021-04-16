@@ -16,10 +16,16 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.xml.sax.SAXException;
@@ -27,6 +33,7 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Time;
 import java.util.ArrayList;
 
 public class SecondPage {
@@ -36,6 +43,18 @@ public class SecondPage {
     public Label fileName;
     public Pane visualisationWindow;
     public Button fruchterman_reingold;
+    public Text nbIteration;
+    public AnchorPane ap;
+    public Button btn_stop;
+    public Text step;
+
+    public int getIteration() {
+        return iteration;
+    }
+
+    public void setIteration(int iteration) {
+        this.iteration = iteration;
+    }
 
     int frameWidth = 978; // Y
     int frameLength = 638; // X
@@ -63,6 +82,8 @@ public class SecondPage {
             // else we will be able to change scene
             app_stage.setScene(first_page_scene);
             app_stage.show();
+            timeline.stop();
+
         }
     }
 
@@ -75,22 +96,33 @@ public class SecondPage {
         fileChoosen = graphML;
         System.out.println("file choosen: " + fileChoosen.getName());
         fileName.setText(fileChoosen.getName());
+        btn_stop.setDisable(true);
 
         xmlInit();
 
-//        fruchtermanReingold();
-
     }
 
+    /**
+     * init value of decrementation for temperature, init label "number of iteration" and launch spatialisation.
+     */
+    public void initialisationBeforeLaunch() {
+        nbIteration.setText(String.valueOf(iteration));
+        dt = temperature / iteration;
+        btn_stop.setDisable(false);
+        btn_back.setDisable(true);
+        animation();
+        fruchterman_reingold.setDisable(true);
+    }
 
     /**
      * read and init the graphML file by creating a list of edge and a list of node.
      */
     Graph G;
-
     private void xmlInit() throws ParserConfigurationException, IOException, SAXException {
         G = new Graph(fileChoosen);
         G.randomizeNodesWithSeed();
+
+        nbIteration.setText(String.valueOf(iteration));
 
         drawEdges(G);
         drawNodes(G);
@@ -116,7 +148,7 @@ public class SecondPage {
                 clr = Color.ORANGE;
             }
 
-            Circle c = new Circle(5, clr);
+            Circle c = new Circle(2, clr);
             nodes.add(c);
             c.setCenterX(node.getPosX());
             c.setCenterY(node.getPosY());
@@ -149,9 +181,9 @@ public class SecondPage {
             line.setEndY(edge.getTrg().getPosY());
 
             if (edge.getPoids() != 1) {
-                line.setStrokeWidth(edge.getPoids());
+                line.setStrokeWidth(edge.getPoids() * 0.1);
             } else {
-                line.setStrokeWidth(edge.getPoids());
+                line.setStrokeWidth(edge.getPoids() * 0.1);
             }
 
             visualisationWindow.getChildren().add(line);
@@ -271,22 +303,30 @@ public class SecondPage {
 
 
     /**
-     * Animation via Button.
+     * Open a window to choose number of iteration.
      *
      * @param actionEvent
      */
-    public void fruchtermanReingoldButton(ActionEvent actionEvent) {
-//        fruchtermanReingold(G);
-        animation();
-//        fruchtermanReingoldAnimation();
+    public void fruchtermanReingoldButton(ActionEvent actionEvent) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("configurationSpatialisation.fxml"));
+        AnchorPane newWindow = (AnchorPane) loader.load();
+        IterationChoose controller = loader.getController();
+        controller.setMainWindow(this);
+        Stage stage = new Stage();
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(fruchterman_reingold.getScene().getWindow());
+        Scene scene = new Scene(newWindow);
+        stage.setScene(scene);
+        stage.show();
     }
 
     /**
      * Setup timeline for the animation.
      * We can change the duration of a frame.
      */
+    Timeline timeline;
     private void animation() {
-        final Timeline timeline = new Timeline(
+        timeline = new Timeline(
                 new KeyFrame(Duration.ZERO, new EventHandler() {
                     @Override
                     public void handle(Event event) {
@@ -305,11 +345,17 @@ public class SecondPage {
      * Variable initialisation
      */
     float temperature = frameWidth / 10;
-    int iteration = 100;
-    float dt = temperature / iteration;
+    int iteration;
+    float dt;
+    int x = 1;
 
+    /**
+     * Fruchterman reingold implementation
+     */
     private void fruchtermanReingoldAnimation() {
-
+        System.out.println("itération : " + iteration);
+        System.out.println("température : " + temperature);
+        System.out.println("dt = " + dt);
         drawEdges(G);
         drawNodes(G);
 
@@ -370,6 +416,17 @@ public class SecondPage {
 
         }
 
+/*
+        // Gravity
+        for (Nodes node : G.getNodes()) {
+            float d = (float) Math.sqrt(node.displacementX * node.displacementX + node.getDisplacementY() * node.getDisplacementY());
+            float gf = 0.01f * optimalDistance * 1 * d;
+            node.displacementX -= gf * node.displacementX / d;
+            node.displacementY -= gf * node.displacementY / d;
+        }
+*/
+
+
         // Apply position
         for (Nodes node : G.getNodes()) {
             float dispX = node.getDisplacementX();
@@ -397,9 +454,15 @@ public class SecondPage {
         System.out.println("température " + temperature);
         drawEdges(G);
         drawNodes(G);
+//        System.out.println("itération numéro : " + x++);
+        step.setText(String.valueOf(x++));
 
 
     }
 
-
+    public void stopTimeline(ActionEvent actionEvent) {
+        timeline.stop();
+        btn_stop.setDisable(true);
+        btn_back.setDisable(false);
+    }
 }
