@@ -416,15 +416,13 @@ public class SecondPage {
 
         }
 
-/*
-        // Gravity
+/*        // Gravity
         for (Nodes node : G.getNodes()) {
             float d = (float) Math.sqrt(node.displacementX * node.displacementX + node.getDisplacementY() * node.getDisplacementY());
-            float gf = 0.01f * optimalDistance * 1 * d;
-            node.displacementX -= gf * node.displacementX / d;
-            node.displacementY -= gf * node.displacementY / d;
-        }
-*/
+            float gf = 0.01f * optimalDistance * 0.5f * d;
+            node.displacementX -= gf * node.getPosX() / d;
+            node.displacementY -= gf * node.getPosY() / d;
+        }*/
 
 
         // Apply position
@@ -440,8 +438,8 @@ public class SecondPage {
                 node.setPosX(node.getPosX() + (dispX / disp) * Math.min(disp, temperature));
                 node.setPosY(node.getPosY() + (dispY / disp) * Math.min(disp, temperature));
 
-                node.setPosX(Math.min(frameWidth - 20, Math.max(20, node.getPosX())));
-                node.setPosY(Math.min(frameLength - 20, Math.max(20, node.getPosY())));
+                node.setPosX(Math.min(frameWidth, Math.max(20, node.getPosX())));
+                node.setPosY(Math.min(frameLength , Math.max(20, node.getPosY())));
 
                 if (node.getPosX() > frameWidth || node.getPosY() > frameLength) {
                     System.out.println("ERROR");
