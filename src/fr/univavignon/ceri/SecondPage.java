@@ -38,7 +38,7 @@ import java.util.ArrayList;
 
 public class SecondPage {
 
-
+    // JAVAFX
     public Button btn_back;
     public Label fileName;
     public Pane visualisationWindow;
@@ -48,21 +48,24 @@ public class SecondPage {
     public Button btn_stop;
     public Text step;
 
-    public int getIteration() {
-        return iteration;
-    }
+
+    // Properties
+    int frameWidth = 978; // Y
+    int frameLength = 638; // X
+    float temperature = frameWidth / 10f;
+    int iteration;
+    float dt;
+    int x = 1;
+    File fileChoosen;
+
+
+    ArrayList<Circle> nodes = new ArrayList<>();
+    ArrayList<Line> edges = new ArrayList<>();
+
 
     public void setIteration(int iteration) {
         this.iteration = iteration;
     }
-
-    int frameWidth = 978; // Y
-    int frameLength = 638; // X
-
-    File fileChoosen;
-
-    ArrayList<Circle> nodes = new ArrayList<>();
-    ArrayList<Line> edges = new ArrayList<>();
 
 
     /**
@@ -114,6 +117,7 @@ public class SecondPage {
         fruchterman_reingold.setDisable(true);
     }
 
+
     /**
      * read and init the graphML file by creating a list of edge and a list of node.
      */
@@ -138,8 +142,6 @@ public class SecondPage {
         // width = 1003
         // height = 668
 
-//        visualisationWindow.getChildren().clear();
-        int i = 0;
         for (Nodes node : g.getNodes()) {
             Color clr;
             if (node.getId().equals("6") || node.getId().equals("0")) {
@@ -154,7 +156,7 @@ public class SecondPage {
             c.setCenterY(node.getPosY());
 
             visualisationWindow.getChildren().add(c);
-            i++;
+
         }
 
 
@@ -166,9 +168,6 @@ public class SecondPage {
      * @param g
      */
     void drawEdges(Graph g) {
-        /**
-         * Initalisation pour test.
-         */
         visualisationWindow.getChildren().clear();
 
         for (Edge edge : g.getEdges()) {
@@ -180,11 +179,7 @@ public class SecondPage {
             line.setEndX(edge.getTrg().getPosX());
             line.setEndY(edge.getTrg().getPosY());
 
-            if (edge.getPoids() != 1) {
-                line.setStrokeWidth(edge.getPoids() * 0.1);
-            } else {
-                line.setStrokeWidth(edge.getPoids() * 0.1);
-            }
+            line.setStrokeWidth(edge.getPoids() * 0.1);
 
             visualisationWindow.getChildren().add(line);
         }
@@ -320,6 +315,7 @@ public class SecondPage {
         stage.show();
     }
 
+
     /**
      * Setup timeline for the animation.
      * We can change the duration of a frame.
@@ -340,14 +336,6 @@ public class SecondPage {
 
         timeline.play();
     }
-
-    /**
-     * Variable initialisation
-     */
-    float temperature = frameWidth / 10;
-    int iteration;
-    float dt;
-    int x = 1;
 
     /**
      * Fruchterman reingold implementation
@@ -439,7 +427,7 @@ public class SecondPage {
                 node.setPosY(node.getPosY() + (dispY / disp) * Math.min(disp, temperature));
 
                 node.setPosX(Math.min(frameWidth, Math.max(20, node.getPosX())));
-                node.setPosY(Math.min(frameLength , Math.max(20, node.getPosY())));
+                node.setPosY(Math.min(frameLength, Math.max(20, node.getPosY())));
 
                 if (node.getPosX() > frameWidth || node.getPosY() > frameLength) {
                     System.out.println("ERROR");
