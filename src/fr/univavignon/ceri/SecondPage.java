@@ -186,115 +186,6 @@ public class SecondPage {
 
     }
 
-    void fruchtermanReingold(Graph g) {
-        // Parameter : Graph(node list, edge list), Frame Width, Frame Length, temperature, iteration
-        int iteration = 100;
-        float temperature = frameWidth / 10;
-        float dt = temperature / iteration;
-
-        // Initialisation
-//        G.randomizeNodes();  // Randomly place Node in the frame.
-
-        //TODO Remove the randomize with seed
-
-        // Optimal distance between node
-        float optimalDistance = (float) Math.sqrt(((frameLength) * (frameWidth)) / G.getNodes().size());
-
-        System.out.println("Distance optimal = " + optimalDistance);
-
-
-        // Great loop
-        for (int i = 0; i < iteration; i++) {
-//            System.out.println(g.getEdges());
-            System.out.println(g.getNodes());
-
-            // Repulsive forces
-            for (Nodes node1 : g.getNodes()) {
-                node1.setDisplacementX(0);
-                node1.setDisplacementY(0);
-                for (Nodes node2 : g.getNodes()) {
-                    if (node1 != node2) {
-                        // distance between node
-                        float distanceX = (node1.getPosX() - node2.getPosX());
-                        float distanceY = (node1.getPosY() - node2.getPosY());
-
-                        /**
-                         * Problems encountered here with the function "pow(base,exponent)" not to be used
-                         * because not compatible with float.
-                         */
-                        // Distance between node1 and node2
-                        float distance = (float) Math.sqrt(distanceX * distanceX + distanceY * distanceY);
-
-                        float repulsion = (optimalDistance * optimalDistance / (distance));    // Repulsion
-
-                        if (distance != 0) {
-                            node1.setDisplacementX(node1.getDisplacementX() + (distanceX / (distance)) * repulsion);
-                            node1.setDisplacementY(node1.getDisplacementY() + (distanceY / (distance)) * repulsion);
-
-                        }
-                    }
-                }
-            }
-
-            //Attractive forces with edges
-            for (Edge edge : g.getEdges()) {
-                // get the node associated to the edge.
-                Nodes sourceNode = edge.src;
-                Nodes targetNode = edge.trg;
-
-                float distanceX = (sourceNode.getPosX() - targetNode.getPosX());
-                float distanceY = (sourceNode.getPosY() - targetNode.getPosY());
-
-                float distance = (float) Math.sqrt(distanceX * distanceX + distanceY * distanceY);
-
-                float attraction = (distance * distance) / optimalDistance;
-                System.out.println("attraction : " + attraction);
-
-                if (distance != 0) {
-                    sourceNode.setDisplacementX(sourceNode.getDisplacementX() - (distanceX / (distance)) * attraction);
-                    sourceNode.setDisplacementY(sourceNode.getDisplacementY() - (distanceY / (distance)) * attraction);
-
-                    targetNode.setDisplacementX(targetNode.getDisplacementX() + (distanceX / (distance)) * attraction);
-                    targetNode.setDisplacementY(targetNode.getDisplacementY() + (distanceY / (distance)) * attraction);
-                }
-
-            }
-
-            for (Nodes node : g.getNodes()) {
-                float dispX = node.getDisplacementX();
-                float dispY = node.getDisplacementY();
-
-                float disp = (float) Math.sqrt(dispX * dispX + dispY * dispY);
-
-                if (disp != 0) {
-//                    System.out.println(node.toString());
-
-                    node.setPosX(node.getPosX() + (dispX / disp) * Math.min(disp, temperature));
-                    node.setPosY(node.getPosY() + (dispY / disp) * Math.min(disp, temperature));
-
-                    node.setPosX(Math.min(frameWidth, Math.max(20, node.getPosX())));
-                    node.setPosY(Math.min(frameLength, Math.max(20, node.getPosY())));
-
-                    if (node.getPosX() > frameWidth || node.getPosY() > frameLength) {
-                        System.out.println("ERROR");
-                    }
-                }
-            }
-
-//            temperature -= temperature / iteration;
-            temperature -= dt;
-
-            System.out.println(g.getNodes());
-            System.out.println("température : " + temperature);
-            System.out.println("------------------------------");
-        }
-
-
-        System.out.println("\n" + G.getNodes());
-        drawEdges(g);
-        drawNodes(g);
-
-    }
 
 
     /**
@@ -318,7 +209,7 @@ public class SecondPage {
 
     /**
      * Setup timeline for the animation.
-     * We can change the duration of a frame.
+     * We can change the duration of a frame by changing argument on line "new KeyFrame(...)".
      */
     Timeline timeline;
     private void animation() {
@@ -347,10 +238,8 @@ public class SecondPage {
         drawEdges(G);
         drawNodes(G);
 
-        //TODO Remove the randomize with seed
-
         // Optimal distance between node
-        float optimalDistance = (float) Math.sqrt(((frameLength) * (frameWidth)) / G.getNodes().size());
+        float optimalDistance = (float) Math.sqrt(((frameLength) * (frameWidth)) / (float) G.getNodes().size());
 
 
         // Repulsive forces
