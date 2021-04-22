@@ -117,7 +117,6 @@ public class Graph {
                 edge.setTargetPosX(edge.getTrg().getPosX());
                 edge.setTargetPosY(edge.getTrg().getPosY());
             }
-
         }
     }
 

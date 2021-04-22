@@ -3,6 +3,7 @@ package fr.univavignon.ceri;
 import fr.univavignon.ceri.model.Edge;
 import fr.univavignon.ceri.model.Graph;
 import fr.univavignon.ceri.model.Nodes;
+import fr.univavignon.ceri.model.PageRank;
 import javafx.animation.PauseTransition;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -17,6 +18,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.xml.sax.SAXException;
@@ -35,6 +37,10 @@ public class SecondPage {
     public Label fileName;
     public Pane visualisationWindow;
     public Button fruchterman_reingold;
+
+    public Text ALogCentrNom;
+    public Text AlgoCentrPremier;
+    public Text AlgoCentrDernier;
 
     int frameWidth = 978; // Y
     int frameLength = 638; // X
@@ -78,7 +84,7 @@ public class SecondPage {
         fileName.setText(fileChoosen.getName());
 
         xmlInit();
-
+        displayWeightedPageRank();
 //        fruchtermanReingold();
 
     }
@@ -95,6 +101,7 @@ public class SecondPage {
 
         drawEdge();
         drawANode();
+
     }
 
 
@@ -291,6 +298,17 @@ public class SecondPage {
 
     public void fruchtermanReingoldButton(ActionEvent actionEvent) {
         fruchtermanReingold();
+    }
+
+    void displayWeightedPageRank(){
+        PageRank tmp = new PageRank();
+        tmp.fillListeES(G.getEdges(), G.getNodes());
+        ArrayList<String> links = tmp.sortPR();
+
+        ALogCentrNom.setText("WeightedPageRank");
+        AlgoCentrPremier.setText(links.get(0));
+        AlgoCentrDernier.setText(links.get(links.size() - 1));
+
     }
 
 
