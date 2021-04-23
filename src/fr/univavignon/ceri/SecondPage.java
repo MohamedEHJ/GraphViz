@@ -83,8 +83,9 @@ public class SecondPage {
         System.out.println("file choosen: " + fileChoosen.getName());
         fileName.setText(fileChoosen.getName());
 
+
         xmlInit();
-        displayWeightedPageRank();
+
 //        fruchtermanReingold();
 
     }
@@ -98,6 +99,8 @@ public class SecondPage {
     private void xmlInit() throws ParserConfigurationException, IOException, SAXException {
         G = new Graph(fileChoosen);
         G.randomizeNodes();
+
+        displayWeightedPageRank();
 
         drawEdge();
         drawANode();
@@ -141,7 +144,7 @@ public class SecondPage {
                 clr = Color.ORANGE;
             }
 
-            Circle c = new Circle(5, clr);
+            Circle c = new Circle(node.getTaille(), clr);
             nodes.add(c);
             c.setCenterX(node.getPosX());
             c.setCenterY(node.getPosY());
@@ -301,8 +304,8 @@ public class SecondPage {
     }
 
     void displayWeightedPageRank(){
-        PageRank tmp = new PageRank();
-        tmp.fillListeES(G.getEdges(), G.getNodes());
+        PageRank tmp = new PageRank(G.getEdges(), G.getNodes());
+        tmp.fillListeES();
         ArrayList<String> links = tmp.sortPR();
 
         ALogCentrNom.setText("WeightedPageRank");

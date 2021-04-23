@@ -1,109 +1,142 @@
 package fr.univavignon.ceri.model;
 
-import javax.management.ListenerNotFoundException;
-import java.lang.reflect.Array;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class PageRank {
-    private Map<String, ArrayList<Integer>> listeES;
-    private Map<String, ArrayList<Float>> listeW;
-    private Map<String, ArrayList<Float>> listePR;
-    public int iteration = 1;
+    public ArrayList<Nodes> nodes;
+    public ArrayList<Edge> edges;
+    public Map<Edge, Double> wIn;
+    public Map<Edge, Double> wOut;
+    public Map<String, ArrayList<Integer>> listeES;
+    public Map<String, ArrayList<Double>> listePR;
+    public int iteration = 15;
+    public double d = 0.85;
+    public int tailleMax = 20;
+    public int tailleMin = 5;
 
-    public PageRank() {
-        setListeES(new HashMap<String, ArrayList<Integer>>());
-        setListeW(new HashMap<String, ArrayList<Float>>());
-        setListePR(new HashMap<String, ArrayList<Float>>());
+    public PageRank(ArrayList<Edge> a, ArrayList<Nodes> b) {
+        this.listeES = new HashMap<>();
+        this.edges = a;
+        this.nodes = b;
+        wIn = new HashMap<>();
+        wOut = new HashMap<>();
+        listePR = new HashMap<>();
     }
-    public void fillListeES(ArrayList<Edge> a, ArrayList<Nodes> b) {
-        for(Nodes nod : b ){
+
+    public void fillListeES() {
+        for(Nodes nod : nodes ){
             ArrayList tmp = new ArrayList<Integer>();
             tmp.add(0);
             tmp.add(0);
             getListeES().put(nod.getUrl(), tmp);
         }
 
-        for(Edge edg : a){
+        for(Edge edg : edges){
             for(String i : getListeES().keySet()){
                 if(i.equals(edg.getSrc().getUrl())){
-                    getListeES().get(i).set(0,getListeES().get(i).get(0) + 1);
-                }
-                if(i.equals(edg.getTrg().getUrl())){
                     getListeES().get(i).set(1,getListeES().get(i).get(1) + 1);
                 }
-            }
-        }
-        System.out.println(getListeES().toString());
-        w(b,a);
-        pr(a,b);
-    }
-
-    public void w(ArrayList<Nodes> c, ArrayList<Edge> a) {
-        for(Nodes j : c){
-            ArrayList tmp = new ArrayList<Float>();
-            tmp.add(0.0F);
-            tmp.add(0.0F);
-            getListeW().put(j.getUrl(), tmp);
-        }
-        int somme = 0;
-        String tmp = "";
-        for(Edge i : a){
-            if(tmp.equals("")){
-                tmp = i.getSrc().getUrl();
-            }
-            if(!i.getSrc().getUrl().equals(tmp)){
-                getListeW().get(tmp).set(0, (float)getListeES().get(tmp).get(0)/(float) somme);
-                somme = 0;
-            }
-            somme += getListeES().get(tmp).get(1);
-            tmp = i.getSrc().getUrl();
-        }
-        somme = 0;
-        for(Nodes i : c){
-            for(Edge j : a) {
-                if(j.getTrg().getUrl().equals(i.getUrl())){
-                    somme += getListeES().get(j.getSrc().getUrl()).get(1); //nb sorties du source
+                if(i.equals(edg.getTrg().getUrl())){
+                    getListeES().get(i).set(0,getListeES().get(i).get(0) + 1);
                 }
             }
-            getListeW().get(i.getUrl()).set(1, (float)getListeES().get(i.getUrl()).get(1)/(float)somme);
-            somme = 0;
         }
-
-        System.out.println(getListeW().toString());
+        //System.out.println(getListeES().toString());
+        wIn();
+        wOut();
+        wpr();
     }
 
-    public void pr(ArrayList<Edge> a, ArrayList<Nodes> b){
-        for(Nodes i : b){
-            ArrayList tmp = new ArrayList<Float>();
-            tmp.add(1.0F/(float)b.size());
-            //tmp.add(1.0F);
-            getListePR().put(i.getUrl(), tmp);
-        }
-
-        float sum = 0.0F;
-        for(int cpt = 0; cpt < iteration; cpt++) {
-            for (Nodes i : b) {
-                for (Edge j : a) {
-                    if (j.getTrg().getUrl().equals(i.getUrl())) {
-                        int size = getListePR().get(j.getTrg().getUrl()).size();
-                        //PR(v)*Win*Wout
-                        sum += getListePR().get(j.getSrc().getUrl()).get(size - 1) * getListeW().get(j.getSrc().getUrl()).get(0) * getListeW().get(j.getSrc().getUrl()).get(1);
-
+    public void wIn(){
+        int somme;
+        for(Edge i : edges){//A
+            somme = getListeES().get(i.getTrg().getUrl()).get(0);
+            for(Edge j : edges) {//p1
+                if(!i.equals(j)) {
+                    if (j.getSrc().getUrl().equals(i.getTrg().getUrl())) {
+                        somme += getListeES().get(j.getTrg().getUrl()).get(0);
                     }
                 }
-                float d = 0.85F;
-                sum = sum * d + (1.0F - d);
-                getListePR().get(i.getUrl()).add(sum);
-                sum = 0.0F;
+            }
+            wIn.put(i, (double) getListeES().get(i.getTrg().getUrl()).get(0) / somme);
+        }
+
+       /* for(Edge i : wIn.keySet()){
+            System.out.println(i + " : " +wIn.get(i));
+        }*/
+    }
+
+    public void wOut(){
+        int somme = 0;
+        for(Edge i : edges){
+            somme = getListeES().get(i.getTrg().getUrl()).get(0);
+            for(Edge j : edges){
+                if(j.getSrc().getUrl().equals(i.getTrg().getUrl())){
+                    somme += getListeES().get(j.getSrc().getUrl()).get(1);
+                }
+            }
+            wOut.put(i, (double)getListeES().get(i.getTrg().getUrl()).get(1)/somme );
+        }
+
+        /*for(Edge i : wOut.keySet()){
+            System.out.println(i + " : " +wOut.get(i));
+        }*/
+    }
+
+    public double getWin(String v, String u){
+        for(Edge i : edges){
+            if(i.getSrc().getUrl().equals(v)){
+                if(i.getTrg().getUrl().equals(u)){
+                    return wIn.get(i);
+                }
             }
         }
-        //System.out.println(getListePR().toString());
+        return 1.0;
+    }
+
+    public double getWout(String v, String u){
+        for(Edge i : edges){
+            if(i.getSrc().getUrl().equals(v)){
+                if(i.getTrg().getUrl().equals(u)){
+                    return wOut.get(i);
+                }
+            }
+        }
+        return 1.0;
+    }
+
+    public void wpr() {
+        for(Nodes i : nodes){
+            ArrayList<Double> tmp = new ArrayList<>();
+            //tmp.add((double)1/nodes.size());
+            tmp.add((double)1);
+            listePR.put(i.getUrl(), tmp);
+        }
+
+        double somme = 0;
+        int size = 0;
+        for(int k = 0; k < iteration; k++) {
+            for (Nodes i : nodes) {
+                size = listePR.get(i.getUrl()).size() - 1;
+                for (Edge j : edges) {
+                    if (j.getTrg().getUrl().equals(i.getUrl())) {
+                        somme += listePR.get(j.getSrc().getUrl()).get(size) * getWin(j.getTrg().getUrl(),j.getSrc().getUrl()) * getWout(j.getTrg().getUrl(),j.getSrc().getUrl());
+                    }
+                }
+                listePR.get(i.getUrl()).add(somme * d + (1 - d));
+                somme = 0;
+            }
+            /*for (String i : listePR.keySet()) {
+                System.out.println(i + " : " + listePR.get(i).toString());
+            }*/
+        }
     }
 
     public ArrayList<String> sortPR(){
-        HashMap<String, ArrayList<Float>> listePRClone = new HashMap<String, ArrayList<Float>>(getListePR());
+        HashMap<String, ArrayList<Double>> listePRClone = new HashMap<String, ArrayList<Double>>(listePR);
         ArrayList<String> sortedLinks = new ArrayList<>();
         String tmp = "";
         int size;
@@ -125,9 +158,23 @@ public class PageRank {
         int cpt = 0;
         for(String i : sortedLinks){
             cpt++;
-            System.out.println(cpt + " : " + i + " - " + getListePR().get(i).get(iteration));
+            System.out.println(cpt + " : " + i + " - " + listePR.get(i).get(iteration));
         }
+        generateSize(sortedLinks);
         return sortedLinks;
+    }
+
+    public void generateSize(ArrayList<String> a) {
+        for(int i = 0, size = a.size(); i < size; i++){
+            for(Nodes j : nodes){
+                if(j.getUrl().equals(a.get(i))){
+                    double tmp = (double)i * (tailleMax-tailleMin) /size;
+                    j.setTaille(tailleMin + tmp);
+                    break;
+                }
+            }
+        }
+        System.out.println(nodes.toString());
     }
     //GETTERS SETTERS
 
@@ -135,23 +182,4 @@ public class PageRank {
         return listeES;
     }
 
-    public void setListeES(Map<String, ArrayList<Integer>> listeES) {
-        this.listeES = listeES;
-    }
-
-    public Map<String, ArrayList<Float>> getListeW() {
-        return listeW;
-    }
-
-    public void setListeW(Map<String, ArrayList<Float>> listeW) {
-        this.listeW = listeW;
-    }
-
-    public Map<String, ArrayList<Float>> getListePR() {
-        return listePR;
-    }
-
-    public void setListePR(Map<String, ArrayList<Float>> listePR) {
-        this.listePR = listePR;
-    }
 }

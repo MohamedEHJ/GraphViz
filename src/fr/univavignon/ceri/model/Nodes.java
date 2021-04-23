@@ -13,6 +13,7 @@ public class Nodes {
     private String url;
     private float posX;
     private float posY;
+    private double taille;
 
     private float displacementX;
     private float displacementY;
@@ -65,10 +66,13 @@ public class Nodes {
         return url;
     }
 
+    public void setTaille(double taille){this.taille = taille;}
+
+    public double getTaille() {return this.taille;}
 
     @Override
     public String toString() {
-        return "<id = " + id + ", url = " + url + ", posX = " + posX + ", posY = " + posY + ">\n";
+        return "<id = " + id + ", url = " + url + ", posX = " + posX + ", posY = " + posY + ", taille = " + taille + ">\n";
     }
 
     /**
