@@ -24,8 +24,16 @@ public class PageRank {
         wIn = new HashMap<>();
         wOut = new HashMap<>();
         listePR = new HashMap<>();
+        fillListeES();
+        wIn();
+        wOut();
+        wpr();
     }
 
+    /**
+        Function that get the number of input and output of each edges in a hashMap.
+
+     **/
     public void fillListeES() {
         for(Nodes nod : nodes ){
             ArrayList tmp = new ArrayList<Integer>();
@@ -45,11 +53,12 @@ public class PageRank {
             }
         }
         //System.out.println(getListeES().toString());
-        wIn();
-        wOut();
-        wpr();
+
     }
 
+    /**
+     * Function that put the weightIN of each nodes in a HashMap
+     */
     public void wIn(){
         int somme;
         for(Edge i : edges){//A
@@ -68,7 +77,9 @@ public class PageRank {
             System.out.println(i + " : " +wIn.get(i));
         }*/
     }
-
+    /**
+     * Function that put the weightOut of each nodes in a HashMap
+     */
     public void wOut(){
         int somme = 0;
         for(Edge i : edges){
@@ -86,6 +97,12 @@ public class PageRank {
         }*/
     }
 
+    /**
+     * Function that give you the weightIn between the two url you give in parameter
+     * @param v source url
+     * @param u goto url
+     * @return double wIn
+     */
     public double getWin(String v, String u){
         for(Edge i : edges){
             if(i.getSrc().getUrl().equals(v)){
@@ -97,6 +114,12 @@ public class PageRank {
         return 1.0;
     }
 
+    /**
+     * Function that give you the weightOut between the two url you give in parameter
+     * @param v source url
+     * @param u go to url
+     * @return double wOut
+     */
     public double getWout(String v, String u){
         for(Edge i : edges){
             if(i.getSrc().getUrl().equals(v)){
@@ -108,6 +131,9 @@ public class PageRank {
         return 1.0;
     }
 
+    /**
+     * Function that put in a HashMap the weighted PageRank of each Edge.
+     */
     public void wpr() {
         for(Nodes i : nodes){
             ArrayList<Double> tmp = new ArrayList<>();
@@ -135,6 +161,11 @@ public class PageRank {
         }
     }
 
+    /**
+     * Function that return an ArrayList of String. This Arraylist contains each URL, sorted from the higher wPageRank
+     * to the lowest.
+     * @return ArrayList<String>
+     */
     public ArrayList<String> sortPR(){
         HashMap<String, ArrayList<Double>> listePRClone = new HashMap<String, ArrayList<Double>>(listePR);
         ArrayList<String> sortedLinks = new ArrayList<>();
@@ -159,17 +190,23 @@ public class PageRank {
         for(String i : sortedLinks){
             cpt++;
             System.out.println(cpt + " : " + i + " - " + listePR.get(i).get(iteration));
+
         }
         generateSize(sortedLinks);
         return sortedLinks;
     }
 
+    /**
+     * Function that add a size to each edge. The bigger the wPageRank, the bigger the size.
+     * @param a List of url sorted, bigger wPR first.
+     */
     public void generateSize(ArrayList<String> a) {
         for(int i = 0, size = a.size(); i < size; i++){
             for(Nodes j : nodes){
                 if(j.getUrl().equals(a.get(i))){
-                    double tmp = (double)i * (tailleMax-tailleMin) /size;
-                    j.setTaille(tailleMin + tmp);
+                    /*double tmp = (double)i * (tailleMax-tailleMin) /size;
+                    j.setTaille(tailleMin + tmp);*/
+                    j.setTaille(listePR.get(j.getUrl()).get(iteration) * 15);
                     break;
                 }
             }

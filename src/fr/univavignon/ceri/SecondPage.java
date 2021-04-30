@@ -303,9 +303,11 @@ public class SecondPage {
         fruchtermanReingold();
     }
 
+    /**
+     * Get the wPageRank of each node and then display the first and the last one on the application.
+     */
     void displayWeightedPageRank(){
         PageRank tmp = new PageRank(G.getEdges(), G.getNodes());
-        tmp.fillListeES();
         ArrayList<String> links = tmp.sortPR();
 
         ALogCentrNom.setText("WeightedPageRank");
