@@ -47,7 +47,39 @@
             </Text>
             <ScrollPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
               <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+                <AnchorPane minHeight="0.0" minWidth="0.0">
+                     <children>
+                        <Text layoutX="3.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nom :">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Text>
+                        <Text layoutX="3.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="L'URL classé premier :">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Text>
+                        <Text fx:id="ALogCentrNom" layoutX="57.0" layoutY="21.0" strokeType="OUTSIDE" strokeWidth="0.0" text="nom">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Text>
+                        <Text fx:id="AlgoCentrPremier" layoutX="8.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="url1">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Text>
+                        <Text layoutX="4.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="L'URL classé dernier :">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Text>
+                        <Text fx:id="AlgoCentrDernier" layoutX="9.0" layoutY="89.0" strokeType="OUTSIDE" strokeWidth="0.0" text="url2">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Text>
+                     </children></AnchorPane>
               </content>
             </ScrollPane>
             <ScrollPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="1">

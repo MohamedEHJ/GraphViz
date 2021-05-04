@@ -3,6 +3,7 @@ package fr.univavignon.ceri;
 import fr.univavignon.ceri.model.Edge;
 import fr.univavignon.ceri.model.Graph;
 import fr.univavignon.ceri.model.Nodes;
+import fr.univavignon.ceri.model.PageRank;
 import javafx.animation.PauseTransition;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -17,6 +18,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.xml.sax.SAXException;
@@ -35,6 +37,10 @@ public class SecondPage {
     public Label fileName;
     public Pane visualisationWindow;
     public Button fruchterman_reingold;
+
+    public Text ALogCentrNom;
+    public Text AlgoCentrPremier;
+    public Text AlgoCentrDernier;
 
     int frameWidth = 978; // Y
     int frameLength = 638; // X
@@ -77,6 +83,7 @@ public class SecondPage {
         System.out.println("file choosen: " + fileChoosen.getName());
         fileName.setText(fileChoosen.getName());
 
+
         xmlInit();
 
 //        fruchtermanReingold();
@@ -93,8 +100,11 @@ public class SecondPage {
         G = new Graph(fileChoosen);
         G.randomizeNodes();
 
+        displayWeightedPageRank();
+
         drawEdge();
         drawANode();
+
     }
 
 
@@ -134,7 +144,7 @@ public class SecondPage {
                 clr = Color.ORANGE;
             }
 
-            Circle c = new Circle(5, clr);
+            Circle c = new Circle(node.getTaille(), clr);
             nodes.add(c);
             c.setCenterX(node.getPosX());
             c.setCenterY(node.getPosY());
@@ -291,6 +301,19 @@ public class SecondPage {
 
     public void fruchtermanReingoldButton(ActionEvent actionEvent) {
         fruchtermanReingold();
+    }
+
+    /**
+     * Get the wPageRank of each node and then display the first and the last one on the application.
+     */
+    void displayWeightedPageRank(){
+        PageRank tmp = new PageRank(G.getEdges(), G.getNodes());
+        ArrayList<String> links = tmp.sortPR();
+
+        ALogCentrNom.setText("WeightedPageRank");
+        AlgoCentrPremier.setText(links.get(0));
+        AlgoCentrDernier.setText(links.get(links.size() - 1));
+
     }
 
 
