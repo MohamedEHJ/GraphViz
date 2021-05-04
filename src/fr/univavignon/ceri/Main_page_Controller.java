@@ -25,7 +25,6 @@ public class Main_page_Controller {
 
     @FXML
     public Button search_btn;
-    public ProgressBar taskProgressBar;
 
     /**
      * Manage the scene change when clicking on "visualisation" button.

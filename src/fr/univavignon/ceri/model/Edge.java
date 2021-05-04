@@ -10,8 +10,8 @@ import java.util.List;
 public class Edge implements Comparable<Edge> {
     private int source;
     private int target;
-    private Nodes src;
-    private Nodes trg;
+    public Nodes src;
+    public Nodes trg;
     private int poids;
     private float sourcePosX;
     private float sourcePosY;
@@ -93,7 +93,10 @@ public class Edge implements Comparable<Edge> {
 
     @Override
     public String toString() {
-        return "<source: " + src.getUrl() + " destination: " + trg.getUrl() + " poids: " + poids + ">\n";
+        return "<source: " + src.getId() + " destination: " + trg.getId() + "\n"
+        + "src.dx | src.dy = " + src.getDisplacementX() + '|' + src.getDisplacementY() +
+                " trg.dx | trg.dy = " + trg.getDisplacementX() + '|' + trg.getDisplacementY() +
+        ">\n";
     }
 
     /**
