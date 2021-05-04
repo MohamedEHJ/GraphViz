@@ -195,14 +195,7 @@ public class SecondPage {
                     );
 
                     double maxWidth = (ap.getWidth() - 2) - shape.getCenterX() - 20;
-                    System.out.println(nodesInformation.getHeight());
-
                     nodesInformation.setMaxWidth(maxWidth);
-
-//                    System.out.println(nodesInformation.getWidth());
-//                    System.out.println(nodesInformation.getMaxWidth());
-//                    System.out.println(nodesInformation.getMinWidth());
-//                    System.out.println(nodesInformation.getLayoutX());
 
                 }
             });
