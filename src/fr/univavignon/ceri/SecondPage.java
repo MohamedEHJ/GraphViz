@@ -5,7 +5,6 @@ import fr.univavignon.ceri.model.Graph;
 import fr.univavignon.ceri.model.Nodes;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -16,11 +15,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -33,7 +31,6 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
-import java.sql.Time;
 import java.util.ArrayList;
 
 public class SecondPage {
@@ -47,6 +44,7 @@ public class SecondPage {
     public AnchorPane ap;
     public Button btn_stop;
     public Text step;
+    Label nodesInformation;
 
 
     // Properties
@@ -122,6 +120,7 @@ public class SecondPage {
      * read and init the graphML file by creating a list of edge and a list of node.
      */
     Graph G;
+
     private void xmlInit() throws ParserConfigurationException, IOException, SAXException {
         G = new Graph(fileChoosen);
         G.randomizeNodesWithSeed();
@@ -132,6 +131,8 @@ public class SecondPage {
         drawNodes(G);
     }
 
+    private static final DropShadow highlight =
+            new DropShadow(20, Color.BLUE);
 
     /**
      * Draw nodes from graph G using node list.
@@ -150,7 +151,8 @@ public class SecondPage {
                 clr = Color.ORANGE;
             }
 
-            Circle c = new Circle(2, clr);
+            Circle c = new Circle(5, clr);
+            c.setId(node.getUrl());
             nodes.add(c);
             c.setCenterX(node.getPosX());
             c.setCenterY(node.getPosY());
@@ -159,6 +161,53 @@ public class SecondPage {
 
         }
 
+
+        // Information on mouse over node
+        nodesInformation = new Label(" ");
+
+        for (Circle shape : nodes) {
+            shape.setOnMouseEntered(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    shape.setEffect(highlight);
+                    nodesInformation.setText(
+                            "" + shape.getId()
+                    );
+
+                    nodesInformation.setLayoutX(shape.getCenterX() + 20);
+                    nodesInformation.setLayoutY(shape.getCenterY());
+                    nodesInformation.setStyle(
+                            "-fx-font-size: 15px; -fx-background-color: #e6dfc1; -fx-border-color: black; -fx-wrap-text: true;"
+                    );
+
+                    double maxWidth = (ap.getWidth() - 2) - shape.getCenterX() - 20;
+                    System.out.println(nodesInformation.getHeight());
+
+                    nodesInformation.setMaxWidth(maxWidth);
+
+//                    System.out.println(nodesInformation.getWidth());
+//                    System.out.println(nodesInformation.getMaxWidth());
+//                    System.out.println(nodesInformation.getMinWidth());
+//                    System.out.println(nodesInformation.getLayoutX());
+
+                }
+            });
+
+            shape.setOnMouseExited(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    shape.setEffect(null);
+                    nodesInformation.setText(" ");
+                    nodesInformation.setStyle(
+                            ""
+                    );
+                }
+            });
+        }
+
+//        visualisationWindow.setClip(nodesInformation);
+        nodesInformation.toFront();
+        ap.getChildren().add(nodesInformation);
 
     }
 
@@ -187,7 +236,6 @@ public class SecondPage {
     }
 
 
-
     /**
      * Open a window to choose number of iteration.
      *
@@ -212,6 +260,7 @@ public class SecondPage {
      * We can change the duration of a frame by changing argument on line "new KeyFrame(...)".
      */
     Timeline timeline;
+
     private void animation() {
         timeline = new Timeline(
                 new KeyFrame(Duration.ZERO, new EventHandler() {
