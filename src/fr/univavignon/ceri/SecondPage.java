@@ -1,11 +1,6 @@
 package fr.univavignon.ceri;
 
-import fr.univavignon.ceri.model.Edge;
-import fr.univavignon.ceri.model.Graph;
-import fr.univavignon.ceri.model.Nodes;
-import fr.univavignon.ceri.model.PageRank;
-import javafx.animation.PauseTransition;
-import javafx.concurrent.Task;
+import fr.univavignon.ceri.model.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -72,6 +67,17 @@ public class SecondPage {
     ArrayList<Circle> nodes = new ArrayList<>();
     ArrayList<Line> edges = new ArrayList<>();
 
+    //DLPA
+    public Text nbCommunautes;
+    ArrayList<Integer> etiquettes = new ArrayList<>();
+    ArrayList<Double> kIn = new ArrayList<>();
+    ArrayList<Double> kOut = new ArrayList<>();
+    ArrayList<ArrayList<Nodes>> voisinsSortants = new ArrayList<>();
+    ArrayList<ArrayList<Nodes>> voisinsEntrants = new ArrayList<>();
+    ArrayList<Double> k = new ArrayList<>();
+    DLPA dlpa = new DLPA();
+    int nbCommunautesDLPA;
+
 
     public void setIteration(int iteration) {
         this.iteration = iteration;
@@ -137,9 +143,21 @@ public class SecondPage {
         G = new Graph(fileChoosen);
         G.randomizeNodesWithSeed();
 
+        ArrayList<Nodes> nodes = G.getNodes();
+        for(int i = 0; i < nodes.size(); i++){
+            etiquettes.add(i);
+            k.add(Double.valueOf(dlpa.getDegreNode(nodes.get(i),G)));
+            voisinsEntrants.add(dlpa.getVoisinsEntrantsNodes(nodes.get(i), G));
+            voisinsSortants.add(dlpa.getVoisinsSortantNodes(nodes.get(i), G));
+            kIn.add(Double.valueOf(dlpa.getDegreEntrantNode(nodes.get(i), G)));
+            kOut.add(Double.valueOf(dlpa.getDegreSortantNode(nodes.get(i), G)));
+        }
+        nbCommunautesDLPA=dlpa.Algo(etiquettes, nodes, voisinsEntrants, voisinsSortants, k, kIn, kOut);
+
         displayWeightedPageRank();
 
         nbIteration.setText(String.valueOf(iteration));
+        nbCommunautes.setText(String.valueOf(nbCommunautesDLPA));
 
         drawEdges(G);
         drawNodes(G);
@@ -158,13 +176,7 @@ public class SecondPage {
         // height = 668
 
         for (Nodes node : g.getNodes()) {
-            Color clr;
-            if (node.getId().equals("6") || node.getId().equals("0")) {
-                clr = Color.RED;
-            } else {
-                clr = Color.ORANGE;
-            }
-
+            Color clr = node.getColor();
             Circle c = new Circle(node.getTaille(), clr);
             c.setId(node.getUrl());
             nodes.add(c);
@@ -387,8 +399,6 @@ public class SecondPage {
         drawNodes(G);
 //        System.out.println("itération numéro : " + x++);
         step.setText(String.valueOf(x++));
-
-
     }
 
     public void stopTimeline(ActionEvent actionEvent) {

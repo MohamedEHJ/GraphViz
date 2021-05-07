@@ -1,5 +1,6 @@
 package fr.univavignon.ceri.model;
 
+import javafx.scene.paint.Color;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -14,6 +15,7 @@ public class Nodes {
     private float posX;
     private float posY;
     private double taille;
+    private Color color;
 
     private float displacementX;
     private float displacementY;
@@ -70,6 +72,14 @@ public class Nodes {
 
     public double getTaille() {return this.taille;}
 
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
     @Override
     public String toString() {
         return "Nodes{" +
@@ -80,6 +90,7 @@ public class Nodes {
                 ", displacementX=" + displacementX +
                 ", displacementY=" + displacementY +
                 ", taille =" + taille +
+                ", couleur =" + color +
                 '}';
     }
 
@@ -99,7 +110,6 @@ public class Nodes {
             if (node.getNodeType() == Node.ELEMENT_NODE) {
                 //get all nodes info
                 Element eElement = (Element) node;
-
 
                 n.setId((eElement.getElementsByTagName("data").item(1).getTextContent()));
                 n.setUrl(eElement.getElementsByTagName("data").item(0).getTextContent());
