@@ -1,17 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="ap" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.univavignon.ceri.SecondPage">
+<AnchorPane fx:id="ap" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.univavignon.ceri.SecondPage">
    <children>
       <GridPane alignment="CENTER" gridLinesVisible="true" layoutY="666.0" prefHeight="134.0" prefWidth="1006.0" style="-fx-background-color: #2657a6; -fx-border-color: black; -fx-border-width: 0 5 0 0;">
          <columnConstraints>
@@ -49,34 +42,34 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0">
                      <children>
-                        <Text layoutX="3.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nom :">
+                        <Text layoutX="3.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="• Nom :">
                            <font>
-                              <Font name="System Bold" size="15.0" />
+                              <Font name="System Bold" size="14.0" />
                            </font>
                         </Text>
-                        <Text layoutX="3.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="L'URL classé premier :">
+                        <Text layoutX="3.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="• L'URL classé premier :">
                            <font>
-                              <Font name="System Bold" size="15.0" />
+                              <Font name="System Bold" size="14.0" />
                            </font>
                         </Text>
-                        <Text fx:id="ALogCentrNom" layoutX="57.0" layoutY="21.0" strokeType="OUTSIDE" strokeWidth="0.0" text="nom">
+                        <Text fx:id="ALogCentrNom" layoutX="58.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="nom">
                            <font>
-                              <Font size="15.0" />
+                              <Font size="14.0" />
                            </font>
                         </Text>
                         <Text fx:id="AlgoCentrPremier" layoutX="8.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="url1">
                            <font>
-                              <Font size="15.0" />
+                              <Font size="14.0" />
                            </font>
                         </Text>
-                        <Text layoutX="4.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="L'URL classé dernier :">
+                        <Text layoutX="4.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="• L'URL classé dernier :">
                            <font>
-                              <Font name="System Bold" size="15.0" />
+                              <Font name="System Bold" size="14.0" />
                            </font>
                         </Text>
                         <Text fx:id="AlgoCentrDernier" layoutX="9.0" layoutY="89.0" strokeType="OUTSIDE" strokeWidth="0.0" text="url2">
                            <font>
-                              <Font size="15.0" />
+                              <Font size="14.0" />
                            </font>
                         </Text>
                      </children></AnchorPane>
@@ -84,7 +77,29 @@
             </ScrollPane>
             <ScrollPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
                <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <Text layoutX="5.0" layoutY="18.0" strokeType="OUTSIDE" strokeWidth="0.0" text="• Nombre de noeuds : ">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Text>
+                        <Text layoutX="5.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="• Nombre de liens :">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Text>
+                        <Text fx:id="nbNoeuds" layoutX="152.0" layoutY="17.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Text>
+                        <Text fx:id="nbEdges" layoutX="139.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Text>
+                     </children></AnchorPane>
                </content>
             </ScrollPane>
             <ScrollPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
@@ -118,7 +133,7 @@
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <Text layoutX="78.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Spatialisation">
+                        <Text layoutX="78.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fruchterman-Reingold">
                            <font>
                               <Font size="14.0" />
                            </font>
