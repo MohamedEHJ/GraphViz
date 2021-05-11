@@ -189,7 +189,7 @@ public class PageRank {
         int cpt = 0;
         for(String i : sortedLinks){
             cpt++;
-            System.out.println(cpt + " : " + i + " - " + listePR.get(i).get(iteration));
+//            System.out.println(cpt + " : " + i + " - " + listePR.get(i).get(iteration));
 
         }
         generateSize(sortedLinks);

@@ -38,22 +38,24 @@ public class SecondPage {
     public Label fileName;
     public Pane visualisationWindow;
     public Button fruchterman_reingold;
+    public Text nbNoeuds;
+    public Text nbEdges;
 
     // Fruchterman reingold implementation
     public Text nbIteration;
     public AnchorPane ap;
     public Button btn_stop;
     public Text step;
+
     Label nodesInformation;
 
     // Implementation weighted page rank
-
     public Text ALogCentrNom;
     public Text AlgoCentrPremier;
     public Text AlgoCentrDernier;
 
 
-    // Properties
+    // Properties of window for graph
     int frameWidth = 978; // Y
     int frameLength = 638; // X
 
@@ -158,6 +160,9 @@ public class SecondPage {
 
         nbIteration.setText(String.valueOf(iteration));
         nbCommunautes.setText(String.valueOf(nbCommunautesDLPA));
+
+        nbNoeuds.setText(String.valueOf(G.getNodes().size()));
+        nbEdges.setText(String.valueOf(G.getEdges().size()));
 
         drawEdges(G);
         drawNodes(G);
@@ -288,7 +293,7 @@ public class SecondPage {
                         fruchtermanReingoldAnimation();
                     }
                 }),
-                new KeyFrame(Duration.millis(150))
+                new KeyFrame(Duration.millis(80))
         );
 
         timeline.setCycleCount(iteration);
