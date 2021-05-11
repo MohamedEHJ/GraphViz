@@ -69,7 +69,7 @@ public class SecondPage {
 
     //DLPA
     public Text nbCommunautes;
-    ArrayList<Integer> etiquettes = new ArrayList<>();
+    ArrayList<Integer> labels = new ArrayList<>();
     ArrayList<Double> kIn = new ArrayList<>();
     ArrayList<Double> kOut = new ArrayList<>();
     ArrayList<ArrayList<Nodes>> voisinsSortants = new ArrayList<>();
@@ -145,14 +145,14 @@ public class SecondPage {
 
         ArrayList<Nodes> nodes = G.getNodes();
         for(int i = 0; i < nodes.size(); i++){
-            etiquettes.add(i);
+            labels.add(i);
             k.add(Double.valueOf(dlpa.getDegreNode(nodes.get(i),G)));
             voisinsEntrants.add(dlpa.getVoisinsEntrantsNodes(nodes.get(i), G));
             voisinsSortants.add(dlpa.getVoisinsSortantNodes(nodes.get(i), G));
             kIn.add(Double.valueOf(dlpa.getDegreEntrantNode(nodes.get(i), G)));
             kOut.add(Double.valueOf(dlpa.getDegreSortantNode(nodes.get(i), G)));
         }
-        nbCommunautesDLPA=dlpa.Algo(etiquettes, nodes, voisinsEntrants, voisinsSortants, k, kIn, kOut);
+        nbCommunautesDLPA=dlpa.Algo(labels, nodes, voisinsEntrants, voisinsSortants, k, kIn, kOut);
 
         displayWeightedPageRank();
 
