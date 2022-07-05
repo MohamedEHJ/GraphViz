@@ -1,8 +1,12 @@
-# WebCrawl
+# Graph Viz
 
 A web crawler can be used to browse the World Wide Web, typically for the purpose of Web indexing, as in many existing search engines, such as Google, Bing, Yandex, DuckDuckGo, Qwant, and so on.
 
-This tools allow the vizualisation of graph from webcrawl.
+:warning: **This tools allow the vizualisation of graph from webcrawl.**
+
+![Alt Text](Animation.gif)
+
+This soft is based on a Force-based layout algorithm.
 
 This software was developed as an assignment during the 2020/21 university year at the CERI, Avignon University (France), by the following students:
 * Yasser Atmani
