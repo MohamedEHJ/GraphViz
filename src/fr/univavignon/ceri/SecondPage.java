@@ -138,10 +138,12 @@ public class SecondPage {
 
     /**
      * read and init the graphML file by creating a list of edge and a list of node.
+     *
      */
     Graph G;
 
     private void xmlInit() throws ParserConfigurationException, IOException, SAXException {
+
         G = new Graph(fileChoosen);
         G.randomizeNodesWithSeed();
 
