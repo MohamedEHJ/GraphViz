@@ -7,6 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -34,11 +35,6 @@ public class Main_page_Controller {
      */
     public void visualisation(ActionEvent actionEvent) throws IOException, ParserConfigurationException, SAXException {
         System.out.println("You clicked on 'Visualisation' button!");
-
-
-        // A ENLEVER A ENLEVER A ENLEVER A ENLEVER A ENLEVER A ENLEVER A ENLEVER
-//        fileChoosen = new File("C:\\Users\\AZ\\Documents\\graphs\\crawl40.graphml");
-        // A ENLEVER A ENLEVER A ENLEVER A ENLEVER A ENLEVER A ENLEVER A ENLEVER A ENLEVER
 
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("second_page.fxml"));

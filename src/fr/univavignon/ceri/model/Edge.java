@@ -7,12 +7,65 @@ import org.w3c.dom.NodeList;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Edge implements Comparable<Edge>  {
+public class Edge implements Comparable<Edge> {
     private int source;
     private int target;
+    public Nodes src;
+    public Nodes trg;
     private int poids;
+    private float sourcePosX;
+    private float sourcePosY;
+    private float targetPosX;
+    private float targetPosY;
 
-    public static List<Edge> edgeList = new ArrayList<>();
+    public void setSrc(Nodes src) {
+        this.src = src;
+    }
+
+    public void setTrg(Nodes trg) {
+        this.trg = trg;
+    }
+
+
+    public Nodes getSrc() {
+        return src;
+    }
+
+    public Nodes getTrg() {
+        return trg;
+    }
+
+    public float getSourcePosX() {
+        return sourcePosX;
+    }
+
+    public float getSourcePosY() {
+        return sourcePosY;
+    }
+
+    public float getTargetPosX() {
+        return targetPosX;
+    }
+
+    public float getTargetPosY() {
+        return targetPosY;
+    }
+
+    public void setSourcePosX(float sourcePosX) {
+        this.sourcePosX = sourcePosX;
+    }
+
+    public void setSourcePosY(float sourcePosY) {
+        this.sourcePosY = sourcePosY;
+    }
+
+    public void setTargetPosX(float targetPosX) {
+        this.targetPosX = targetPosX;
+    }
+
+    public void setTargetPosY(float targetPosY) {
+        this.targetPosY = targetPosY;
+    }
 
     public int getSource() {
         return source;
@@ -38,26 +91,23 @@ public class Edge implements Comparable<Edge>  {
         this.poids = poids;
     }
 
-    /**
-     * display list of edge
-     */
-    public void displayList() {
-        for (int i = 0; i < edgeList.size(); i++) {
-            System.out.print(edgeList.get(i));
-        }
-    }
-
     @Override
     public String toString() {
-        return "<source:" + source + " destination:" + target + " poids: " + poids + ">\n";
+        return "<source: " + src.getId() + " destination: " + trg.getId() + "\n"
+        + "src.dx | src.dy = " + src.getDisplacementX() + '|' + src.getDisplacementY() +
+                " trg.dx | trg.dy = " + trg.getDisplacementX() + '|' + trg.getDisplacementY() +
+        ">\n";
     }
 
     /**
      * Function to get all the edge from a graphML file in an array edgeList.
      *
      * @param eList Node from DOM
+     * @return
      */
-    public void edgeScrap(NodeList eList) {
+    public static List<Edge> edgeScrap(NodeList eList) {
+        List<Edge> edgeList = new ArrayList<>();
+
         for (int temp = 0; temp < eList.getLength(); temp++) {
             Edge e = new Edge();
 
@@ -74,13 +124,14 @@ public class Edge implements Comparable<Edge>  {
                 edgeList.add(e);
             }
         }
+        return edgeList;
     }
 
     @Override
     public int compareTo(Edge compareSource) {
-        int cs=((Edge)compareSource).getSource();
+        int cs = ((Edge) compareSource).getSource();
         /* For Ascending order*/
-        return cs-this.source;
+        return cs - this.source;
 
         /* For Descending order do like this */
         //return compareage-this.studentage;

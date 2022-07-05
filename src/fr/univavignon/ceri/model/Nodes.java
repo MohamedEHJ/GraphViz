@@ -1,5 +1,6 @@
 package fr.univavignon.ceri.model;
 
+import javafx.scene.paint.Color;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -9,16 +10,53 @@ import java.util.List;
 
 public class Nodes {
 
-    private int id;
+    private String id;
     private String url;
+    private float posX;
+    private float posY;
+    private double taille;
+    private Color color;
 
-    public static List<Nodes> nodesList = new ArrayList<>();
+    private float displacementX;
+    private float displacementY;
 
-    public int getId() {
+    public float getDisplacementX() {
+        return displacementX;
+    }
+
+    public void setDisplacementX(float displacementX) {
+        this.displacementX = displacementX;
+    }
+
+    public float getDisplacementY() {
+        return displacementY;
+    }
+
+    public void setDisplacementY(float displacementY) {
+        this.displacementY = displacementY;
+    }
+
+    public float getPosX() {
+        return posX;
+    }
+
+    public float getPosY() {
+        return posY;
+    }
+
+    public void setPosX(float posX) {
+        this.posX = posX;
+    }
+
+    public void setPosY(float posY) {
+        this.posY = posY;
+    }
+
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -30,26 +68,41 @@ public class Nodes {
         return url;
     }
 
-    /**
-     * display list of Nodes
-     */
-    public void displayList() {
-        for (int i = 0; i < nodesList.size(); i++) {
-            System.out.print(nodesList.get(i));
-        }
+    public void setTaille(double taille){this.taille = taille;}
+
+    public double getTaille() {return this.taille;}
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
     }
 
     @Override
     public String toString() {
-        return ("<id = " + id + " url = " + url + ">\n");
+        return "Nodes{" +
+                "id='" + id + '\'' +
+//                ", url='" + url + '\'' +
+                ", posX=" + posX +
+                ", posY=" + posY +
+                ", displacementX=" + displacementX +
+                ", displacementY=" + displacementY +
+                ", taille =" + taille +
+                ", couleur =" + color +
+                '}';
     }
 
     /**
      * Function to get all the node from a graphML file in an array edgeList.
      *
      * @param nList Node from DOM
+     * @return
      */
-    public void nodeScrap(NodeList nList) {
+    public static List<Nodes> nodeScrap(NodeList nList) {
+        List<Nodes> nodesList = new ArrayList<>();
+
         for (int temp = 0; temp < nList.getLength(); temp++) {
             Nodes n = new Nodes();
 
@@ -58,13 +111,16 @@ public class Nodes {
                 //get all nodes info
                 Element eElement = (Element) node;
 
-
-                n.setId(Integer.parseInt(eElement.getElementsByTagName("data").item(1).getTextContent()));
+                n.setId((eElement.getElementsByTagName("data").item(1).getTextContent()));
                 n.setUrl(eElement.getElementsByTagName("data").item(0).getTextContent());
+
+                // Check for any n in the id of node, to avoid error while Integer.parseInt()
+                n.setId(n.getId().replace("n", ""));
 
                 nodesList.add(n);
             }
         }
+        return nodesList;
     }
 
 }
